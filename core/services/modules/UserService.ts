@@ -54,7 +54,8 @@ export default (context: nuxtContext) => {
     }
 
     logout(): void {
-      useCookie(AUTHORIZATION_TOKEN_NAME).value = null
+      const token = useCookie(AUTHORIZATION_TOKEN_NAME)
+      token.value = null
       setAuth(false)
       UserService.API_SERVICE.setAuthorizationToken('')
     }

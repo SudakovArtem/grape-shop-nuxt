@@ -12,6 +12,7 @@ export * from './models/Response'
 export * from './models/Product'
 export * from './models/Cart'
 export * from './models/Category'
+export * from './models/Article'
 
 export type coreFunctionList = ((context: nuxtContext) => void)[]
 
