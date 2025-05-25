@@ -12,7 +12,7 @@ export default {
     params
   }),
   login: (): Request.Config => ({
-    url: '/users/admin/login',
+    url: '/users/login',
     method: Request.Methods.POST
   }),
   getProfile: (): Request.Config => ({

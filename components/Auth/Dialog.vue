@@ -60,7 +60,7 @@ async function onSubmit(data: any) {
             <UiFormItem>
               <UiFormLabel>Пароль</UiFormLabel>
               <UiFormControl>
-                <UiInput type="text" placeholder="Ваш пароль" v-bind="componentField" />
+                <UiInput type="password" placeholder="Ваш пароль" v-bind="componentField" />
               </UiFormControl>
               <UiFormMessage />
             </UiFormItem>
