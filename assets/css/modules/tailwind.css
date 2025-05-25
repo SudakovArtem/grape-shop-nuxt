@@ -40,6 +40,27 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  /*Agricultural theme colors*/
+  --color-vine-50: #f0f9f0;
+  --color-vine-100: #dcf2dc;
+  --color-vine-200: #bce5bc;
+  --color-vine-300: #8dd18d;
+  --color-vine-400: #57b757;
+  --color-vine-500: #369e36;
+  --color-vine-600: #2a7f2a;
+  --color-vine-700: #246524;
+  --color-vine-800: #205120;
+  --color-vine-900: #1d431d;
+  --color-earth-50: #faf8f3;
+  --color-earth-100: #f3ede1;
+  --color-earth-200: #e6dac2;
+  --color-earth-300: #d4c09a;
+  --color-earth-400: #c0a070;
+  --color-earth-500: #b08b52;
+  --color-earth-600: #a17a46;
+  --color-earth-700: #86653c;
+  --color-earth-800: #6e5235;
+  --color-earth-900: #5a442d;
 }
 
 :root {
@@ -76,7 +97,6 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-  font-family: Roboto, Helvetica, sans-serif;
 }
 
 .dark {

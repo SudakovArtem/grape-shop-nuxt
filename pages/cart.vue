@@ -1,7 +1,7 @@
 <template>
   <div class="py-8">
     <div class="container mx-auto">
-      <UiBreadcrumb>
+      <UiBreadcrumb class="mb-6">
         <UiBreadcrumbList>
           <UiBreadcrumbItem>
             <UiBreadcrumbLink href="/"> Главная </UiBreadcrumbLink>

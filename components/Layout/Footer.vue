@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-pink-950 text-white">
+  <footer class="bg-vine-800 text-white">
     <div class="container mx-auto py-12">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         <!-- Brand -->
@@ -133,7 +133,7 @@
       <div class="border-t border-vine-700 mt-8 pt-8">
         <div class="flex flex-col md:flex-row justify-between items-center gap-4">
           <div class="flex items-center gap-6">
-            <p class="text-vine-300 text-sm">© 2024 Виноградные саженцы. Все права защищены.</p>
+            <p class="text-vine-300 text-sm">© 2025 Виноградные саженцы. Все права защищены.</p>
           </div>
 
           <div class="flex items-center gap-4">

@@ -1,0 +1,74 @@
+/* FADE(POPUPS & etc) */
+.fade-enter-from {
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.4s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade2-enter-active,
+.fade2-leave-active {
+  transition: all 0.4s;
+}
+
+.fade2-enter-from,
+.fade2-leave-to {
+  position: absolute;
+  opacity: 0;
+}
+
+.fade2-enter-to,
+.fade2-leave-from {
+  opacity: 1;
+}
+
+/* LAYOUTS */
+.layout-enter-active,
+.layout-leave-active {
+  transition: opacity 0.5s;
+}
+
+.layout-enter,
+.layout-leave-active {
+  opacity: 0;
+}
+
+/* PAGES */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.4s;
+}
+
+.page-enter-active,
+.page-leave-to {
+  opacity: 0;
+}
+
+/* TABS */
+.tab-enter-from {
+  position: absolute;
+  opacity: 0;
+}
+
+.tab-enter-active {
+  position: absolute;
+  transition: opacity 0.3s ease 0.3s;
+}
+
+.tab-leave-active {
+  position: absolute;
+  transition: opacity 0.3s ease;
+}
+
+.tab-enter,
+.tab-leave-to {
+  position: absolute;
+  opacity: 0;
+}

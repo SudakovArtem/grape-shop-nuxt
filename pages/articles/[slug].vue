@@ -103,7 +103,7 @@ useHead(() => ({
 <template>
   <div class="py-8">
     <div class="container mx-auto">
-      <UiBreadcrumb v-if="article">
+      <UiBreadcrumb v-if="article" class="mb-6">
         <UiBreadcrumbList>
           <UiBreadcrumbItem>
             <UiBreadcrumbLink href="/"> Главная </UiBreadcrumbLink>
