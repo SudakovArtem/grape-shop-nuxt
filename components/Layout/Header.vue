@@ -1,5 +1,5 @@
 <template>
-  <header class="bg-white/95 backdrop-blur-sm border-b border-vine-200 sticky top-0 z-50">
+  <header class="bg-background/95 backdrop-blur-sm border-b border-vine-200 sticky top-0 z-50">
     <div class="container mx-auto">
       <div class="flex items-center justify-between py-4">
         <!-- Logo -->
@@ -112,12 +112,33 @@
               <Icon name="i-lucide-shopping-cart" class="size-5" />
               <span
                 v-if="cartStore.totalItems > 0"
-                class="absolute -top-2 -right-2 bg-vine-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
+                class="absolute -top-2 -right-2 bg-vine-600 text-accent text-xs rounded-full w-5 h-5 flex items-center justify-center"
               >
                 {{ cartStore.totalItems }}
               </span>
             </UiButton>
           </NuxtLink>
+
+          <UiDropdownMenu>
+            <UiDropdownMenuTrigger as-child>
+              <UiButton variant="outline">
+                <Icon
+                  name="i-lucide-moon"
+                  class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
+                />
+                <Icon
+                  name="i-lucide-sun"
+                  class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+                />
+                <span class="sr-only">Toggle theme</span>
+              </UiButton>
+            </UiDropdownMenuTrigger>
+            <UiDropdownMenuContent align="end">
+              <UiDropdownMenuItem @click="colorMode.preference = 'light'"> Light </UiDropdownMenuItem>
+              <UiDropdownMenuItem @click="colorMode.preference = 'dark'"> Dark </UiDropdownMenuItem>
+              <UiDropdownMenuItem @click="colorMode.preference = 'system'"> System </UiDropdownMenuItem>
+            </UiDropdownMenuContent>
+          </UiDropdownMenu>
 
           <!-- User Menu -->
           <div class="relative">
@@ -133,7 +154,7 @@
 
               <div
                 v-if="showUserMenu"
-                class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-vine-200 py-1 z-10"
+                class="absolute right-0 mt-2 w-48 bg-background rounded-lg shadow-lg border border-vine-200 py-1 z-10"
               >
                 <NuxtLink
                   to="/profile"
@@ -212,6 +233,7 @@ import { useCartStore } from '@/stores/cart'
 import useUserStore from '@/stores/user'
 import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
 
+const colorMode = useColorMode()
 const authStore = useAuthStore()
 const { openModal } = authStore
 const { isAuth } = storeToRefs(authStore)

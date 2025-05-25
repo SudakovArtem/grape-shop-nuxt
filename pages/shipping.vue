@@ -93,7 +93,7 @@
           <div class="space-y-4">
             <div class="flex items-center gap-4">
               <div
-                class="w-8 h-8 bg-vine-600 text-white rounded-full flex items-center justify-center text-sm font-bold"
+                class="w-8 h-8 bg-vine-600 text-accent rounded-full flex items-center justify-center text-sm font-bold"
               >
                 1
               </div>
@@ -105,7 +105,7 @@
 
             <div class="flex items-center gap-4">
               <div
-                class="w-8 h-8 bg-vine-600 text-white rounded-full flex items-center justify-center text-sm font-bold"
+                class="w-8 h-8 bg-vine-600 text-accent rounded-full flex items-center justify-center text-sm font-bold"
               >
                 2
               </div>
@@ -117,7 +117,7 @@
 
             <div class="flex items-center gap-4">
               <div
-                class="w-8 h-8 bg-vine-600 text-white rounded-full flex items-center justify-center text-sm font-bold"
+                class="w-8 h-8 bg-vine-600 text-accent rounded-full flex items-center justify-center text-sm font-bold"
               >
                 3
               </div>

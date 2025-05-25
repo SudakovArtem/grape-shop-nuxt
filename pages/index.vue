@@ -90,20 +90,17 @@ useHead({
 <template>
   <div class="p-8">
     <!-- Hero Section -->
-    <section class="bg-green-100 p-8 rounded-lg mb-8">
+    <section class="bg-vine-100 p-8 rounded-lg mb-8">
       <div class="max-w-4xl mx-auto text-center">
-        <h1 class="text-4xl font-bold text-green-800 mb-6">🍇 Качественные саженцы винограда для вашего сада</h1>
-        <p class="text-xl text-green-600 mb-8 max-w-2xl mx-auto">
+        <h1 class="text-4xl font-bold text-vine-800 mb-6">🍇 Качественные саженцы винограда для вашего сада</h1>
+        <p class="text-xl text-vine-600 mb-8 max-w-2xl mx-auto">
           Выращено с любовью в экологически чистом районе. Каждый саженец уникален, количество ограничено.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <NuxtLink to="/catalog" class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg">
+          <NuxtLink to="/catalog" class="bg-vine-600 hover:bg-vine-700 text-accent px-8 py-4 rounded-lg">
             Посмотреть каталог
           </NuxtLink>
-          <NuxtLink
-            to="/articles"
-            class="border-2 border-green-600 text-green-600 hover:bg-green-50 px-8 py-4 rounded-lg"
-          >
+          <NuxtLink to="/articles" class="border-2 border-vine-600 text-vine-600 hover:bg-vine-50 px-8 py-4 rounded-lg">
             Узнать больше
           </NuxtLink>
         </div>
@@ -111,7 +108,7 @@ useHead({
     </section>
 
     <!-- Popular Products -->
-    <section class="py-16 bg-white/50">
+    <section class="py-16 bg-background/50">
       <div class="container mx-auto">
         <div class="text-center mb-12">
           <h2 class="text-3xl font-bold text-vine-800 mb-4">Популярные сорта</h2>
@@ -166,7 +163,7 @@ useHead({
     </section>
 
     <!-- Harvest Examples -->
-    <section class="py-16 bg-white/50">
+    <section class="py-16 bg-background/50">
       <div class="container mx-auto">
         <div class="text-center mb-12">
           <h2 class="text-3xl font-bold text-vine-800 mb-4">Смотрите, какой урожай можно вырастить!</h2>
@@ -184,7 +181,7 @@ useHead({
             <div
               class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             >
-              <div class="absolute bottom-4 left-4 text-white">
+              <div class="absolute bottom-4 left-4 text-accent">
                 <p class="text-sm font-medium">{{ image.description }}</p>
               </div>
             </div>
@@ -223,7 +220,7 @@ useHead({
     </section>
 
     <!-- Where We Grow -->
-    <section class="py-16 bg-white/50">
+    <section class="py-16 bg-background/50">
       <div class="container mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div class="order-2 lg:order-1">

@@ -92,7 +92,7 @@ function clearFilters() {
 function getColorClass(color: string): string {
   const colorMap: Record<string, string> = {
     Красный: 'bg-red-500',
-    Белый: 'bg-white',
+    Белый: 'bg-background',
     Розовый: 'bg-pink-300',
     Синий: 'bg-blue-600',
     Черный: 'bg-gray-900',

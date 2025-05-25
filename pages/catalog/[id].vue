@@ -89,7 +89,7 @@
                 <UiButton
                   @click="addToCart"
                   :disabled="!product.inStock || adding"
-                  class="bg-vine-600 hover:bg-vine-700 text-white px-8"
+                  class="bg-vine-600 hover:bg-vine-700 text-accent px-8"
                 >
                   {{ adding ? 'Добавление...' : 'В корзину' }}
                 </UiButton>
@@ -153,7 +153,7 @@ const {
   data: product,
   refresh,
   status
-} = await useAsyncData<Product.Model>(() => {
+} = await useLazyAsyncData<Product.Model>(() => {
   return $fetch(`${baseApiUrl}/products/${id}`, {
     method: 'GET',
     headers: {

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is(.dark-mode *));
 
 @theme inline {
   --color-background: var(--background);
@@ -40,27 +40,27 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  /*Agricultural theme colors*/
-  --color-vine-50: #f0f9f0;
-  --color-vine-100: #dcf2dc;
-  --color-vine-200: #bce5bc;
-  --color-vine-300: #8dd18d;
-  --color-vine-400: #57b757;
-  --color-vine-500: #369e36;
-  --color-vine-600: #2a7f2a;
-  --color-vine-700: #246524;
-  --color-vine-800: #205120;
-  --color-vine-900: #1d431d;
-  --color-earth-50: #faf8f3;
-  --color-earth-100: #f3ede1;
-  --color-earth-200: #e6dac2;
-  --color-earth-300: #d4c09a;
-  --color-earth-400: #c0a070;
-  --color-earth-500: #b08b52;
-  --color-earth-600: #a17a46;
-  --color-earth-700: #86653c;
-  --color-earth-800: #6e5235;
-  --color-earth-900: #5a442d;
+  --color-vine-50: var(--vine-50);
+  --color-vine-100: var(--vine-100);
+  --color-vine-200: var(--vine-200);
+  --color-vine-300: var(--vine-300);
+  --color-vine-400: var(--vine-400);
+  --color-vine-500: var(--vine-500);
+  --color-vine-600: var(--vine-600);
+  --color-vine-700: var(--vine-700);
+  --color-vine-800: var(--vine-800);
+  --color-vine-900: var(--vine-900);
+  --color-earth-50: var(--earth-50);
+  --color-earth-100: var(--earth-100);
+  --color-earth-200: var(--earth-200);
+  --color-earth-300: var(--earth-300);
+  --color-earth-400: var(--earth-400);
+  --color-earth-500: var(--earth-500);
+  --color-earth-600: var(--earth-600);
+  --color-earth-700: var(--earth-700);
+  --color-earth-800: var(--earth-800);
+  --color-earth-900: var(--earth-900);
+  --color-footer: var(--footer);
 }
 
 :root {
@@ -97,9 +97,31 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* Agricultural theme colors */
+  --vine-900: #1d431d;
+  --vine-800: #205120;
+  --vine-700: #246524;
+  --vine-600: #2a7f2a;
+  --vine-500: #369e36;
+  --vine-400: #57b757;
+  --vine-300: #8dd18d;
+  --vine-200: #bce5bc;
+  --vine-100: #dcf2dc;
+  --vine-50: #f0f9f0;
+  --earth-50: #faf8f3;
+  --earth-100: #f3ede1;
+  --earth-200: #e6dac2;
+  --earth-300: #d4c09a;
+  --earth-400: #c0a070;
+  --earth-500: #b08b52;
+  --earth-600: #a17a46;
+  --earth-700: #86653c;
+  --earth-800: #6e5235;
+  --earth-900: #5a442d;
+  --footer: #205120;
 }
 
-.dark {
+.dark-mode {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.145 0 0);
@@ -132,6 +154,28 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.269 0 0);
   --sidebar-ring: oklch(0.439 0 0);
+  /* Agricultural theme colors for dark mode */
+  --vine-50: #1d431d;
+  --vine-100: #205120;
+  --vine-200: #dcf2dc;
+  --vine-300: #bce5bc;
+  --vine-400: #369e36;
+  --vine-500: #57b757;
+  --vine-600: #8dd18d;
+  --vine-700: #bce5bc;
+  --vine-800: #dcf2dc;
+  --vine-900: #f0f9f0;
+  --earth-50: oklch(0.35 0.08 60);
+  --earth-100: oklch(0.38 0.09 60);
+  --earth-200: oklch(0.42 0.10 60);
+  --earth-300: oklch(0.46 0.11 60);
+  --earth-400: oklch(0.50 0.12 60);
+  --earth-500: oklch(0.54 0.13 60);
+  --earth-600: oklch(0.58 0.14 60);
+  --earth-700: oklch(0.62 0.15 60);
+  --earth-800: oklch(0.66 0.16 60);
+  --earth-900: oklch(0.70 0.17 60);
+  --footer: #1d431d;
 }
 
 @layer base {

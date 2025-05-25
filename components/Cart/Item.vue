@@ -153,7 +153,7 @@ function formatPrice(price: number): string {
 function getColorClass(color: string): string {
   const colorMap: Record<string, string> = {
     Красный: 'bg-red-500',
-    Белый: 'bg-white border',
+    Белый: 'bg-background border',
     Розовый: 'bg-pink-300',
     Синий: 'bg-blue-600',
     Черный: 'bg-gray-900',

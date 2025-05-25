@@ -147,7 +147,7 @@
                 ></textarea>
               </div>
 
-              <UiButton type="submit" class="w-full bg-vine-600 hover:bg-vine-700 text-white" :disabled="sending">
+              <UiButton type="submit" class="w-full bg-vine-600 hover:bg-vine-700 text-accent" :disabled="sending">
                 {{ sending ? 'Отправка...' : 'Отправить сообщение' }}
               </UiButton>
 

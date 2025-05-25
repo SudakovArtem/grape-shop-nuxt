@@ -43,7 +43,15 @@ export default defineNuxtConfig({
       nodeEnv: process.env.APP_NODE_ENV
     }
   },
-  modules: ['@nuxt/fonts', '@nuxt/icon', '@nuxt/image', 'shadcn-nuxt', '@pinia/nuxt', '@nuxtjs/tailwindcss'],
+  modules: [
+    '@nuxt/fonts',
+    '@nuxt/icon',
+    '@nuxt/image',
+    'shadcn-nuxt',
+    '@pinia/nuxt',
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/color-mode'
+  ],
   icon: {
     mode: 'css',
     cssLayer: 'base'

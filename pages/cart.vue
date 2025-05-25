@@ -80,7 +80,7 @@
 
             <UiButton
               @click="proceedToCheckout"
-              class="w-full bg-vine-600 hover:bg-vine-700 text-white"
+              class="w-full bg-vine-600 hover:bg-vine-700 text-accent"
               :disabled="processing"
             >
               {{ processing ? 'Обработка...' : 'Оформить заказ' }}

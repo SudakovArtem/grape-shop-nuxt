@@ -40,7 +40,7 @@
               <p class="text-red-700 text-sm">{{ error }}</p>
             </div>
 
-            <UiButton type="submit" class="w-full bg-vine-600 hover:bg-vine-700 text-white" :disabled="loading">
+            <UiButton type="submit" class="w-full bg-vine-600 hover:bg-vine-700 text-accent" :disabled="loading">
               {{ loading ? 'Вход...' : 'Войти' }}
             </UiButton>
 
@@ -98,7 +98,7 @@
               <p class="text-red-700 text-sm">{{ error }}</p>
             </div>
 
-            <UiButton type="submit" class="w-full bg-vine-600 hover:bg-vine-700 text-white" :disabled="loading">
+            <UiButton type="submit" class="w-full bg-vine-600 hover:bg-vine-700 text-accent" :disabled="loading">
               {{ loading ? 'Регистрация...' : 'Зарегистрироваться' }}
             </UiButton>
 
