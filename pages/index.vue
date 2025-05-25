@@ -42,7 +42,7 @@ const { pageNumber, pageSize, list, loadList, setPageNumber, totalCount } = useP
   replace: true
 })
 
-const { data: popularProducts, status: productsStatus } = useAsyncData(
+const { data: popularProducts, status: productsStatus } = await useLazyAsyncData(
   () =>
     productService.getProducts({
       pageSize: unref(pageSize).toString(),

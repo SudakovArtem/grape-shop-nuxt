@@ -1,15 +1,19 @@
 import type { Cart, Product } from '@/types'
 
 export const useCartStore = defineStore('cart', () => {
-  const items = ref<Cart.Item[]>([])
+  const state = reactive<Cart.Model>({
+    items: []
+  })
 
   // Computed values
+  const items = computed<Cart.Item[]>(() => state.items)
+
   const totalItems = computed(() => {
-    return items.value.reduce((total, item) => total + item.quantity, 0)
+    return state.items.reduce((total, item) => total + item.quantity, 0)
   })
 
   const subtotal = computed(() => {
-    return items.value.reduce((total, item) => {
+    return state.items.reduce((total, item) => {
       return total + Number(item.product.seedlingPrice) * item.quantity
     }, 0)
   })
@@ -22,10 +26,10 @@ export const useCartStore = defineStore('cart', () => {
       const savedCart = localStorage.getItem('cart')
       if (savedCart) {
         try {
-          items.value = JSON.parse(savedCart)
+          state.items = JSON.parse(savedCart)
         } catch (error) {
           console.error('Error loading cart from localStorage:', error)
-          items.value = []
+          state.items = []
         }
       }
     }
@@ -34,7 +38,7 @@ export const useCartStore = defineStore('cart', () => {
   // Save cart to localStorage
   function saveCart() {
     if (process.client) {
-      localStorage.setItem('cart', JSON.stringify(items.value))
+      localStorage.setItem('cart', JSON.stringify(state.items))
     }
   }
 
@@ -45,7 +49,7 @@ export const useCartStore = defineStore('cart', () => {
       const product = await $fetch<Product.Model>(`/products/${productId}`)
 
       // Check if item already exists in cart
-      const existingItem = items.value.find((item) => item.product.id === productId)
+      const existingItem = state.items.find((item) => item.product.id === productId)
 
       if (existingItem) {
         // Update quantity
@@ -57,7 +61,7 @@ export const useCartStore = defineStore('cart', () => {
           product,
           quantity: Math.min(quantity, 10)
         }
-        items.value.push(newItem)
+        state.items.push(newItem)
       }
 
       saveCart()
@@ -69,7 +73,7 @@ export const useCartStore = defineStore('cart', () => {
 
   // Update item quantity
   async function updateQuantity(itemId: number, quantity: number) {
-    const item = items.value.find((item) => item.id === itemId)
+    const item = state.items.find((item) => item.id === itemId)
     if (item) {
       item.quantity = Math.max(1, Math.min(quantity, 10))
       saveCart()
@@ -78,26 +82,27 @@ export const useCartStore = defineStore('cart', () => {
 
   // Remove item from cart
   async function removeItem(itemId: number) {
-    const index = items.value.findIndex((item) => item.id === itemId)
+    const index = state.items.findIndex((item) => item.id === itemId)
     if (index > -1) {
-      items.value.splice(index, 1)
+      state.items.splice(index, 1)
       saveCart()
     }
   }
 
   // Clear cart
   async function clear() {
-    items.value = []
+    state.items = []
     saveCart()
   }
 
   // Get item by product ID
   function getItemByProductId(productId: number): Cart.Item | undefined {
-    return items.value.find((item) => item.product.id === productId)
+    return state.items.find((item) => item.product.id === productId)
   }
 
   return {
-    items: readonly(items),
+    state,
+    items,
     totalItems,
     subtotal,
     total,

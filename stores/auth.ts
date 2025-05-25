@@ -3,10 +3,13 @@ import type { Auth } from '@/types'
 
 export default defineStore('auth', () => {
   const state = reactive<Auth.Model>({
-    isAuth: false
+    isAuth: false,
+    modalMode: 'login',
+    isModalOpen: false
   })
-  const isModalOpen = ref(false)
-  const modalMode = ref<'login' | 'register'>('login')
+
+  const isModalOpen = computed(() => state.isModalOpen)
+  const modalMode = computed(() => state.modalMode)
 
   const isAuth = computed<boolean>(() => state.isAuth)
 
@@ -16,24 +19,28 @@ export default defineStore('auth', () => {
 
   // Modal management
   function openModal(mode: 'login' | 'register' = 'login') {
-    modalMode.value = mode
-    isModalOpen.value = true
+    if (isModalOpen.value) {
+      return
+    }
+
+    state.isModalOpen = true
+    state.modalMode = mode
   }
 
   function closeModal() {
-    isModalOpen.value = false
+    state.isModalOpen = false
   }
 
   function setModalMode(mode: 'login' | 'register') {
-    modalMode.value = mode
+    state.modalMode = mode
   }
 
   return {
     state,
     isAuth,
     setAuth,
-    isModalOpen: readonly(isModalOpen),
-    modalMode: readonly(modalMode),
+    isModalOpen,
+    modalMode,
     openModal,
     closeModal,
     setModalMode

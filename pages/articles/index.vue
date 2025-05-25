@@ -6,7 +6,6 @@ const {
   public: { baseApiUrl }
 } = useRuntimeConfig()
 
-const articles = ref([])
 const categories = ref([])
 const searchQuery = ref('')
 const selectedCategories = ref([])
@@ -20,7 +19,6 @@ const { pageNumber, pageSize, list, loadList, setPageNumber, totalCount, increas
 // const search = ref<string>('')
 
 const onSearch = debounce(() => {
-  console.log(123)
   setPageNumber(1)
   refresh()
 }, 800)
@@ -39,10 +37,10 @@ const filters = reactive({
 watch(filters, onSearch, { deep: true })
 watch(sortBy, onSearch)
 const {
-  data: products,
-  status: productsStatus,
+  data: articles,
+  status: articlesStatus,
   refresh
-} = useAsyncData(() => $fetch(`${baseApiUrl}/articles`), {
+} = await useLazyAsyncData(() => $fetch(`${baseApiUrl}/articles`), {
   default: () => ({
     data: [],
     meta: {}
@@ -52,11 +50,11 @@ const {
 
 const isSending = ref<boolean>(false)
 const isLoading = computed<boolean>(() => {
-  return ['idle', 'pending'].includes(unref(productsStatus)) || unref(isSending)
+  return ['idle', 'pending'].includes(unref(articlesStatus)) || unref(isSending)
 })
 
 watch(
-  products,
+  articles,
   (value) => {
     if (!value) {
       return
@@ -226,8 +224,20 @@ useHead({
             </p>
           </div>
 
+          <!-- Loading State -->
+          <div v-if="isLoading" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div v-for="i in 6" :key="i" class="animate-pulse">
+              <div class="bg-gray-200 h-48 rounded-t-lg"></div>
+              <div class="p-6">
+                <div class="bg-gray-200 h-4 rounded mb-2"></div>
+                <div class="bg-gray-200 h-4 rounded mb-2"></div>
+                <div class="bg-gray-200 h-4 rounded w-3/4"></div>
+              </div>
+            </div>
+          </div>
+
           <!-- Articles Grid -->
-          <div v-if="list.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div v-else-if="!isLoading && list.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <UiCard v-for="article in list" :key="article.id" class="overflow-hidden hover:shadow-lg transition-shadow">
               <NuxtLink :to="`/articles/${article.slug}`" class="block">
                 <div v-if="article.imageUrl" class="aspect-video">
@@ -259,18 +269,6 @@ useHead({
                 </div>
               </NuxtLink>
             </UiCard>
-          </div>
-
-          <!-- Loading State -->
-          <div v-else-if="isLoading" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div v-for="i in 6" :key="i" class="animate-pulse">
-              <div class="bg-gray-200 h-48 rounded-t-lg"></div>
-              <div class="p-6">
-                <div class="bg-gray-200 h-4 rounded mb-2"></div>
-                <div class="bg-gray-200 h-4 rounded mb-2"></div>
-                <div class="bg-gray-200 h-4 rounded w-3/4"></div>
-              </div>
-            </div>
           </div>
 
           <!-- Empty State -->

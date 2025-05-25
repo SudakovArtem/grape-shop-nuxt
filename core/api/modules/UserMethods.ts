@@ -4,7 +4,7 @@ import getParams from '@/core/utils/getParams'
 
 export default (context: nuxtContext) => {
   class UserMethods implements UserApi {
-    private static readonly USER_ENDPOINTS = context.$configs.endpoints.user
+    private static USER_ENDPOINTS = context.$configs.endpoints.user
 
     async login(body: User.LoginDto): Promise<User.Session> {
       const config = UserMethods.USER_ENDPOINTS.login()

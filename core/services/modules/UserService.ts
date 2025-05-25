@@ -9,9 +9,9 @@ export default (context: nuxtContext) => {
   const { AUTHORIZATION_TOKEN_NAME } = context.$configs.constants
 
   class UserService implements IUserService {
-    private static readonly USER_METHODS = context.$api.user
+    private static USER_METHODS = context.$api.user
 
-    private static readonly API_SERVICE = context.$services.useAPI
+    private static API_SERVICE = context.$services.useAPI
 
     async getProfile(): Promise<User.Model> {
       const response: User.Model = await UserService.USER_METHODS.getProfile()

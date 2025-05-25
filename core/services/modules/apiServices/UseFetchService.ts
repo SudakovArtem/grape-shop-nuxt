@@ -93,7 +93,8 @@ export default ({ $config, $services }: nuxtContext): ApiClientService => {
 
     private clearUserData(): void {
       const { AUTHORIZATION_TOKEN_NAME } = this.config.constants
-      useCookie(AUTHORIZATION_TOKEN_NAME).value = null
+      const token = useCookie(AUTHORIZATION_TOKEN_NAME)
+      token.value = null
       this.authStore.setAuth(false)
       this.setAuthorizationToken()
     }

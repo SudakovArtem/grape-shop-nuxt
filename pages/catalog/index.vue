@@ -139,7 +139,7 @@ const {
   data: products,
   status: productsStatus,
   refresh
-} = useAsyncData(
+} = await useLazyAsyncData(
   () =>
     productService.getProducts({
       pageSize: unref(pageSize).toString(),
