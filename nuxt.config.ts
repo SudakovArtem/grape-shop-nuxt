@@ -37,6 +37,19 @@ export default defineNuxtConfig({
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
     }
   },
+  devServer: {
+    host: '0.0.0.0',
+    port: 3000
+  },
+  vite: {
+    server: {
+      host: '0.0.0.0',
+      allowedHosts: [
+        '.replit.dev',
+        '.repl.co'
+      ]
+    }
+  },
   runtimeConfig: {
     public: {
       baseApiUrl: process.env.API_BASE_URL,
