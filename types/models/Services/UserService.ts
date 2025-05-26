@@ -11,6 +11,7 @@ export interface UserService {
   deleteUser(id: string): Promise<unknown>
   forgotPassword(body: User.ForgotPasswordDto): Promise<{ message: string }>
   resetPassword(body: User.ResetPasswordDto): Promise<{ message: string }>
+  adminLogin(body: User.LoginDto): Promise<User.Model>
   logout(): void
   checkAuth(): Promise<void>
 }

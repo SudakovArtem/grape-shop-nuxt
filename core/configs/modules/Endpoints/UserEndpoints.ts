@@ -41,5 +41,9 @@ export default {
   resetPassword: (): Request.Config => ({
     url: '/users/reset-password',
     method: Request.Methods.POST
+  }),
+  adminLogin: (): Request.Config => ({
+    url: '/users/admin/login',
+    method: Request.Methods.POST
   })
 }

@@ -6,6 +6,7 @@ import CartMethods from '@api/modules/CartMethods'
 import OrderMethods from '@api/modules/OrderMethods'
 import CategoryMethods from '@api/modules/CategoryMethods'
 import UploadMethods from '@api/modules/UploadMethods'
+import ArticleMethods from '@api/modules/ArticleMethods'
 
 const apiList: coreFunctionList = [
   UserMethods, 
@@ -13,7 +14,8 @@ const apiList: coreFunctionList = [
   CartMethods, 
   OrderMethods, 
   CategoryMethods, 
-  UploadMethods
+  UploadMethods,
+  ArticleMethods
 ]
 
 export default (context: nuxtContext) => {

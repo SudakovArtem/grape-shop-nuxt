@@ -79,6 +79,31 @@ export default (context: nuxtContext) => {
       return response
     }
 
+    async adminLogin(body: User.LoginDto): Promise<User.Model> {
+      const data: User.Session = await UserService.USER_METHODS.adminLogin(body)
+      const { accessToken } = data
+      if (accessToken) {
+        const token = useCookie<string | null>(AUTHORIZATION_TOKEN_NAME, {
+          maxAge: 3600 * 24 * 30,
+          secure: false
+        })
+        UserService.API_SERVICE.setAuthorizationToken(accessToken)
+        token.value = accessToken
+      }
+
+      const result = await new Promise<User.Model>((resolve) => {
+        setTimeout(async () => {
+          const user = (await this.getProfile()) ?? false
+
+          setUser(user)
+          setAuth(true)
+          resolve(user)
+        }, 0)
+      })
+
+      return result
+    }
+
     deleteUser(id: string): Promise<unknown> {
       const response = UserService.USER_METHODS.deleteUser(id)
       return response

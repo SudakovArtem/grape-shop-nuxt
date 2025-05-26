@@ -6,6 +6,7 @@ import cart from './CartEndpoints'
 import order from './OrderEndpoints'
 import category from './CategoryEndpoints'
 import upload from './UploadEndpoints'
+import ArticleEndpoints from '@configs/modules/Endpoints/ArticleEndpoints'
 
 export default (context: nuxtContext) => {
   const endpoints: Endpoints = {
@@ -14,7 +15,8 @@ export default (context: nuxtContext) => {
     cart,
     order,
     category,
-    upload
+    upload,
+    article: ArticleEndpoints
   }
 
   context.$configs.endpoints = endpoints

@@ -17,14 +17,16 @@ export default (context: nuxtContext) => {
         pageNumber: 'page',
         pageSize: 'limit',
         categoryId: 'categoryId',
-        maxPrice: 'maxPrice',
         minPrice: 'minPrice',
+        maxPrice: 'maxPrice',
+        variety: 'variety',
         maturationPeriod: 'maturationPeriod',
         berryShape: 'berryShape',
         color: 'color',
         taste: 'taste',
         search: 'search',
-        sortBy: 'sortBy'
+        sortBy: 'sortBy',
+        inStock: 'inStock'
       }
       const params: Request.Params = getParams(settings, paramNames)
 

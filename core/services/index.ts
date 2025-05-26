@@ -8,6 +8,7 @@ import CartService from '@services/modules/CartService'
 import OrderService from '@services/modules/OrderService'
 import CategoryService from '@services/modules/CategoryService'
 import UploadService from '@services/modules/UploadService'
+import ArticleService from '@services/modules/ArticleService'
 
 const serviceList: coreFunctionList = [
   APIClientService, 
@@ -16,7 +17,8 @@ const serviceList: coreFunctionList = [
   CartService, 
   OrderService, 
   CategoryService, 
-  UploadService, 
+  UploadService,
+  ArticleService,
   AbortService
 ]
 

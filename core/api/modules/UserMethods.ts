@@ -73,6 +73,12 @@ export default (context: nuxtContext) => {
       const result = await context.$services.useAPI.request<{ message: string }>({ config, body })
       return result
     }
+
+    async adminLogin(body: User.LoginDto): Promise<User.Session> {
+      const config = UserMethods.USER_ENDPOINTS.adminLogin()
+      const result = await context.$services.useAPI.request<User.Session>({ config, body })
+      return result
+    }
   }
 
   context.$api.user = new UserMethods()
