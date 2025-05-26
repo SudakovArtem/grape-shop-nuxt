@@ -1,4 +1,3 @@
-
 import type { Request, Response, Article } from '@/types'
 
 export interface ArticleService {
@@ -8,4 +7,5 @@ export interface ArticleService {
   getArticleBySlug(slug: string): Promise<Article.Model>
   updateArticle(id: string, body: Article.UpdateDto): Promise<Article.Model>
   deleteArticle(id: string): Promise<unknown>
+  getArticlesCategories(): Promise<Article.Category[]>
 }

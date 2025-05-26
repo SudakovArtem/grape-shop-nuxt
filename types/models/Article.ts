@@ -31,4 +31,12 @@ export namespace Article {
     published?: boolean
     imageUrl?: string
   }
+
+  export interface Category {
+    id: 1
+    name: string
+    slug: string
+    createdAt: string
+    articlesCount: number
+  }
 }

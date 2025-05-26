@@ -5,10 +5,11 @@ import type { Article, Response } from '@/types'
 const {
   public: { baseApiUrl }
 } = useRuntimeConfig()
+const { article: articleService } = useServices()
 
-const categories = ref([])
+// const categories = ref([])
 const searchQuery = ref('')
-const selectedCategories = ref([])
+const selectedCategories = ref<Array<Article.Category['id']>>([])
 
 const { pageNumber, pageSize, list, loadList, setPageNumber, totalCount, increasePageNumber } =
   usePagination<Article.Model>({
@@ -36,17 +37,28 @@ const filters = reactive({
 
 watch(filters, onSearch, { deep: true })
 watch(sortBy, onSearch)
+
 const {
   data: articles,
   status: articlesStatus,
   refresh
-} = await useLazyAsyncData(() => $fetch(`${baseApiUrl}/articles`), {
-  default: () => ({
-    data: [],
-    meta: {}
-  }),
-  watch: [pageNumber]
-})
+} = await useLazyAsyncData(
+  () => articleService.getArticles({ pageSize: unref(pageSize).toString(), pageNumber: unref(pageNumber).toString() }),
+  {
+    default: () => ({
+      data: [],
+      meta: {}
+    }),
+    watch: [pageNumber]
+  }
+)
+
+const { data: categories, status: categoriesStatus } = await useLazyAsyncData(
+  () => articleService.getArticlesCategories(),
+  {
+    default: () => [] as Article.Category[]
+  }
+)
 
 const isSending = ref<boolean>(false)
 const isLoading = computed<boolean>(() => {
@@ -70,19 +82,19 @@ watch(
 //   applyFilters()
 // }, 500)
 
-onMounted(async () => {
-  await Promise.all([fetchCategories()])
-  // await fetchArticles()
-})
+// onMounted(async () => {
+//   await Promise.all([fetchCategories()])
+//   // await fetchArticles()
+// })
 
-async function fetchCategories() {
-  try {
-    const response = await $fetch(`${baseApiUrl}/article-categories`)
-    categories.value = response || []
-  } catch (error) {
-    console.error('Error fetching categories:', error)
-  }
-}
+// async function fetchCategories() {
+//   try {
+//     const response = await $fetch(`${baseApiUrl}/article-categories`)
+//     categories.value = response || []
+//   } catch (error) {
+//     console.error('Error fetching categories:', error)
+//   }
+// }
 
 // function initializeFromURL() {
 //   const params = route.query
@@ -238,7 +250,11 @@ useHead({
 
           <!-- Articles Grid -->
           <div v-else-if="!isLoading && list.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <UiCard v-for="article in list" :key="article.id" class="overflow-hidden hover:shadow-lg transition-shadow">
+            <UiCard
+              v-for="article in list"
+              :key="article.id"
+              class="overflow-hidden hover:shadow-lg transition-shadow py-0 gap-0"
+            >
               <NuxtLink :to="`/articles/${article.slug}`" class="block">
                 <div v-if="article.imageUrl" class="aspect-video">
                   <NuxtImg

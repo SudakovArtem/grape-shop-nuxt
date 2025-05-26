@@ -103,9 +103,7 @@ const cartStore = useCartStore()
 const authStore = useAuthStore()
 const { openModal } = authStore
 const { isAuth } = storeToRefs(authStore)
-const {
-  public: { baseApiUrl }
-} = useRuntimeConfig()
+const { cart: cartService } = useServices()
 
 const deliveryMethod = ref('pickup')
 const processing = ref(false)
@@ -118,13 +116,8 @@ const {
   data: cart,
   refresh,
   status
-} = await useAsyncData<Product.Model>(() => {
-  return $fetch(`${baseApiUrl}/cart`, {
-    method: 'GET',
-    headers: {
-      authorization: `Bearer ${useCookie('token').value ?? ''}`
-    }
-  })
+} = await useAsyncData(() => cartService.getCart(), {
+  default: () => ({ items: [], totalItems: 0, totalCartPrice: 0 })
 })
 
 async function updateQuantity(itemId: number, quantity: number) {

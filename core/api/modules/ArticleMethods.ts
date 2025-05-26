@@ -51,6 +51,12 @@ export default (context: nuxtContext) => {
       const result = await context.$services.useAPI.request({ config })
       return result
     }
+
+    async getArticlesCategories(): Promise<Article.Category[]> {
+      const config = ArticleMethods.ARTICLE_ENDPOINTS.getArticlesCategories()
+      const result = await context.$services.useAPI.request<Article.Category[]>({ config })
+      return result
+    }
   }
 
   context.$api.article = new ArticleMethods()

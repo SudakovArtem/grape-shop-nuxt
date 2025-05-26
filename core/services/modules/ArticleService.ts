@@ -1,4 +1,3 @@
-
 import type { nuxtContext } from '@nuxt/types'
 import type { Request, Response, Article, ArticleService as IArticleService } from '@/types'
 
@@ -33,6 +32,11 @@ export default (context: nuxtContext) => {
 
     async deleteArticle(id: string): Promise<unknown> {
       const response = await ArticleService.ARTICLE_METHODS.deleteArticle(id)
+      return response
+    }
+
+    async getArticlesCategories(): Promise<Article.Category[]> {
+      const response = await ArticleService.ARTICLE_METHODS.getArticlesCategories()
       return response
     }
   }

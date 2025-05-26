@@ -1,7 +1,7 @@
 <template>
   <div class="py-8">
     <div class="container mx-auto">
-      <UiBreadcrumb v-if="product">
+      <UiBreadcrumb v-if="product" class="mb-6">
         <UiBreadcrumbList>
           <UiBreadcrumbItem>
             <UiBreadcrumbLink href="/"> Главная </UiBreadcrumbLink>
@@ -43,7 +43,9 @@
 
             <div class="mb-6">
               <div class="flex items-center gap-4 mb-2">
-                <span class="text-2xl font-bold text-vine-700">{{ formatPrice(product.cuttingPrice) }}</span>
+                <span v-if="product.seedlingPrice" class="text-2xl font-bold text-vine-700">{{
+                  formatPrice(product.seedlingPrice)
+                }}</span>
                 <span v-if="!product.inStock" class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
                   Нет в наличии
                 </span>
@@ -106,17 +108,13 @@
           <div class="prose prose-vine max-w-none" v-html="product.description"></div>
         </div>
 
-        <!--        &lt;!&ndash; Recommendations &ndash;&gt;-->
-        <!--        <section v-if="recommendations.length > 0">-->
-        <!--          <h2 class="text-2xl font-bold text-vine-800 mb-6">Похожие товары</h2>-->
-        <!--          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">-->
-        <!--            <ProductCard -->
-        <!--              v-for="item in recommendations" -->
-        <!--              :key="item.id" -->
-        <!--              :product="item" -->
-        <!--            />-->
-        <!--          </div>-->
-        <!--        </section>-->
+        <!-- Recommendations -->
+        <section v-if="recommendations.data.length > 0">
+          <h2 class="text-2xl font-bold text-vine-800 mb-6">Похожие товары</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <ProductCard v-for="item in recommendations.data" :key="item.id" v-bind="item" />
+          </div>
+        </section>
       </div>
 
       <!-- Error State -->
@@ -141,11 +139,9 @@ import type { Product } from '@/types'
 const route = useRoute()
 const cartStore = useCartStore()
 const id = route.params.id
-const {
-  public: { baseApiUrl }
-} = useRuntimeConfig()
+const { product: productService } = useServices()
 
-const recommendations = ref([])
+// const recommendations = ref([])
 const quantity = ref(1)
 const adding = ref(false)
 
@@ -154,13 +150,18 @@ const {
   refresh,
   status
 } = await useLazyAsyncData<Product.Model>(() => {
-  return $fetch(`${baseApiUrl}/products/${id}`, {
-    method: 'GET',
-    headers: {
-      authorization: `Bearer ${useCookie('token').value ?? ''}`
-    }
-  })
+  return productService.getProductById(id as string)
 })
+
+const { data: recommendations, status: recommendationsStatus } = await useLazyAsyncData(
+  () => productService.getProducts({ pageSize: '4' }),
+  {
+    default: () => ({
+      data: [],
+      meta: {}
+    })
+  }
+)
 
 const isLoading = computed<boolean>(() => {
   return ['idle', 'pending'].includes(unref(status))
@@ -209,8 +210,8 @@ async function addToCart() {
   }
 }
 
-function formatPrice(price: string): string {
-  const priceNumber = Number(price)
+function formatPrice(price: string | number): string {
+  const priceNumber = typeof price === 'string' ? Number(price) : price
   return new Intl.NumberFormat('ru-RU', {
     style: 'currency',
     currency: 'RUB'

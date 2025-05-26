@@ -1,4 +1,3 @@
-
 import { Request } from '@/types'
 
 export default {
@@ -26,5 +25,9 @@ export default {
   deleteArticle: (id: string): Request.Config => ({
     url: `/articles/${id}`,
     method: Request.Methods.DELETE
+  }),
+  getArticlesCategories: (): Request.Config => ({
+    url: '/article-categories',
+    method: Request.Methods.GET
   })
 }

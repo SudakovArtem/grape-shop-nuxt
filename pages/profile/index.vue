@@ -90,13 +90,13 @@
         <UiCard class="p-6">
           <h2 class="text-xl font-semibold text-vine-800 mb-6">История заказов</h2>
 
-          <div v-if="ordersLoading" class="space-y-4">
+          <div v-if="isLoading" class="space-y-4">
             <div v-for="i in 3" :key="i" class="animate-pulse">
               <div class="bg-gray-200 h-20 rounded"></div>
             </div>
           </div>
 
-          <div v-else-if="list.length > 0" class="space-y-4">
+          <div v-else-if="!isLoading && list.length > 0" class="space-y-4">
             <div
               v-for="order in list"
               :key="order.id"
@@ -138,7 +138,13 @@
           </div>
 
           <!-- Orders Pagination -->
-          <UiPagination v-slot="{ page }" :items-per-page="pageSize" :total="totalCount" :default-page="1">
+          <UiPagination
+            v-if="list.length > 0"
+            v-slot="{ page }"
+            :items-per-page="pageSize"
+            :total="totalCount"
+            :default-page="1"
+          >
             <UiPaginationContent v-slot="{ items }">
               <UiPaginationPrevious @click="setPageNumber(pageNumber > 1 ? pageNumber - 1 : 1)" />
 
@@ -167,27 +173,12 @@
 <script setup lang="ts">
 import useAuthStore from '@/stores/auth'
 import useUserStore from '@/stores/user'
-import type { Response } from '@/types'
-
-type Order = {
-  id: number
-  userId: number
-  totalPrice: string
-  status: string
-  createdAt: string
-  items: {
-    id: number
-    orderId: number
-    productId: number
-    type: string
-    quantity: number
-    price: string
-  }[]
-}
+import type { Response, Order } from '@/types'
 
 const authStore = useAuthStore()
 const { isAuth } = storeToRefs(authStore)
 const { user } = storeToRefs(useUserStore())
+const { order: orderService } = useServices()
 
 const editMode = ref(false)
 const saving = ref(false)
@@ -200,10 +191,6 @@ const profileForm = reactive({
   address: ''
 })
 
-const breadcrumbs = [
-  { label: 'Главная', href: '/' },
-  { label: 'Личный кабинет', href: '/profile' }
-]
 const {
   public: { baseApiUrl }
 } = useRuntimeConfig()
@@ -237,20 +224,14 @@ async function saveProfile() {
   // }
 }
 
-const { pageNumber, pageSize, list, loadList, increasePageNumber, totalCount, setPageNumber } = usePagination<Order>()
+const { pageNumber, pageSize, list, loadList, increasePageNumber, totalCount, setPageNumber } =
+  usePagination<Order.Model>()
 
-const { data: orders } = useAsyncData(
+const { data: orders, status: ordersStatus } = await useLazyAsyncData(
   () =>
-    $fetch(`${baseApiUrl}/orders`, {
-      method: 'GET',
-      headers: {
-        authorization: `Bearer ${useCookie('token').value ?? ''}`
-      },
-      params: {
-        limit: unref(pageSize),
-        page: unref(pageNumber),
-        sortBy: '-createdAt'
-      }
+    orderService.getOrders({
+      pageSize: unref(pageSize).toString(),
+      pageNumber: unref(pageNumber).toString()
     }),
   {
     default: () => ({
@@ -260,6 +241,10 @@ const { data: orders } = useAsyncData(
     watch: [pageNumber]
   }
 )
+
+const isLoading = computed<boolean>(() => {
+  return ['idle', 'pending'].includes(unref(ordersStatus))
+})
 
 watch(
   orders,

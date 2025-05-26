@@ -2,23 +2,33 @@
 import type { Article } from '@/types'
 
 const route = useRoute()
-const {
-  public: { baseApiUrl }
-} = useRuntimeConfig()
+const { article: articleService } = useServices()
 
-const relatedArticles = ref([])
+// const relatedArticles = ref([])
 const copied = ref(false)
 
 const {
   data: article,
   refresh,
   status
-} = await useAsyncData<Article.Model>(() => {
-  return $fetch(`${baseApiUrl}/articles/slug/${route.params.slug}`)
-})
+} = await useAsyncData<Article.Model>(() => articleService.getArticleBySlug(route.params.slug as string))
+
+const { data: relatedArticles, status: relatedArticlesStatus } = await useLazyAsyncData(
+  () => articleService.getArticles({ pageSize: '3' }),
+  {
+    default: () => ({
+      data: [],
+      meta: {}
+    })
+  }
+)
 
 const isLoading = computed<boolean>(() => {
   return ['idle', 'pending'].includes(unref(status))
+})
+
+const isRelatedArticlesLoading = computed<boolean>(() => {
+  return ['idle', 'pending'].includes(unref(relatedArticlesStatus))
 })
 
 // async function fetchRelatedArticles() {
@@ -178,11 +188,11 @@ useHead(() => ({
         </div>
 
         <!-- Related Articles -->
-        <section v-if="relatedArticles.length > 0" class="border-t border-vine-200 pt-8">
+        <section v-if="relatedArticles.data.length > 0" class="border-t border-vine-200 pt-8">
           <h2 class="text-2xl font-bold text-vine-800 mb-6">Похожие статьи</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <UiCard
-              v-for="related in relatedArticles"
+              v-for="related in relatedArticles.data"
               :key="related.id"
               class="overflow-hidden hover:shadow-lg transition-shadow"
             >

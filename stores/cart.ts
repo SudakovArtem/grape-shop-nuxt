@@ -49,7 +49,7 @@ export const useCartStore = defineStore('cart', () => {
       const product = await $fetch<Product.Model>(`/products/${productId}`)
 
       // Check if item already exists in cart
-      const existingItem = state.items.find((item) => item.product.id === productId)
+      const existingItem = state.items.find((item) => item.productId === productId)
 
       if (existingItem) {
         // Update quantity
@@ -97,7 +97,7 @@ export const useCartStore = defineStore('cart', () => {
 
   // Get item by product ID
   function getItemByProductId(productId: number): Cart.Item | undefined {
-    return state.items.find((item) => item.product.id === productId)
+    return state.items.find((item) => item.productId === productId)
   }
 
   return {

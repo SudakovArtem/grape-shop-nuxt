@@ -1,5 +1,3 @@
-import type { Product } from '@/types'
-
 export namespace Cart {
   export interface Model {
     items: Item[]
@@ -19,12 +17,22 @@ export namespace Cart {
     id: number
     userId: number
     productId: number
-    type: 'cutting' | 'seedling'
+    type: string | null
     quantity: number
+    productName: string
+    berryShape: string | null
+    color: string | null
+    taste: string | null
+    variety: string | null
+    imageUrl: string | null
+    inStock: boolean | null
+    unitPrice: number
+    itemTotalPrice: number
   }
 
   export interface Response {
     items: Item[]
     totalCartPrice: number
+    totalItems: number
   }
 }
