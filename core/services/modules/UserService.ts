@@ -18,8 +18,29 @@ export default (context: nuxtContext) => {
       return response
     }
 
+    async updateProfile(body: User.UpdateProfileDto): Promise<User.Model> {
+      const response = await UserService.USER_METHODS.updateProfile(body)
+      setUser(response)
+      return response
+    }
+
     async getUsers(settings: Request.Params): Promise<Response.WithMeta<User.Model[]>> {
       const response = await UserService.USER_METHODS.getUsers(settings)
+      return response
+    }
+
+    async getUserById(id: string): Promise<User.Model> {
+      const response = await UserService.USER_METHODS.getUserById(id)
+      return response
+    }
+
+    async updateUser(id: string, body: User.UpdateProfileDto): Promise<User.Model> {
+      const response = await UserService.USER_METHODS.updateUser(id, body)
+      return response
+    }
+
+    async register(body: User.RegisterDto): Promise<User.Model> {
+      const response = await UserService.USER_METHODS.register(body)
       return response
     }
 
@@ -48,6 +69,16 @@ export default (context: nuxtContext) => {
       return result
     }
 
+    async forgotPassword(body: User.ForgotPasswordDto): Promise<{ message: string }> {
+      const response = await UserService.USER_METHODS.forgotPassword(body)
+      return response
+    }
+
+    async resetPassword(body: User.ResetPasswordDto): Promise<{ message: string }> {
+      const response = await UserService.USER_METHODS.resetPassword(body)
+      return response
+    }
+
     deleteUser(id: string): Promise<unknown> {
       const response = UserService.USER_METHODS.deleteUser(id)
       return response
@@ -57,6 +88,7 @@ export default (context: nuxtContext) => {
       const token = useCookie(AUTHORIZATION_TOKEN_NAME)
       token.value = null
       setAuth(false)
+      setUser(null)
       UserService.API_SERVICE.setAuthorizationToken('')
     }
 

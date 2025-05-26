@@ -35,10 +35,24 @@ export namespace User {
   export interface RegisterDto extends Record<string, unknown> {
     email: string
     password: string
-    ogrn: string
-    fullName: string
-    phone: string
-    userType: User.Types
+    name: string
+    phone?: string
+    address?: string
+  }
+
+  export interface ForgotPasswordDto extends Record<string, unknown> {
+    email: string
+  }
+
+  export interface ResetPasswordDto extends Record<string, unknown> {
+    token: string
+    newPassword: string
+  }
+
+  export interface UpdateProfileDto extends Record<string, unknown> {
+    name?: string
+    phone?: string
+    address?: string
   }
 
   export interface CooperationDto {
