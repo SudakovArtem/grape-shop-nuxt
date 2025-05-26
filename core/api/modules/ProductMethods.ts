@@ -25,8 +25,7 @@ export default (context: nuxtContext) => {
         color: 'color',
         taste: 'taste',
         search: 'search',
-        sortBy: 'sortBy',
-        inStock: 'inStock'
+        sortBy: 'sortBy'
       }
       const params: Request.Params = getParams(settings, paramNames)
 
