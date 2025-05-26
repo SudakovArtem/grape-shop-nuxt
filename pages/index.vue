@@ -69,7 +69,7 @@ watch(
       return
     }
 
-    loadList(value?.data ?? [], (value.meta as Response.Pagination).total ?? 0)
+    loadList(value?.data ?? [], (value?.meta as Response.Pagination)?.total ?? 0)
   },
   { immediate: true }
 )
@@ -172,15 +172,10 @@ useHead({
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div v-for="(image, index) in harvestImages" :key="index" class="relative group overflow-hidden rounded-lg">
-            <NuxtImg
-              :src="image.src"
-              :alt="image.alt"
-              class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
-              loading="lazy"
-            />
+            <NuxtImg :src="image.src" :alt="image.alt"
+              class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
             <div
-              class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            >
+              class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <div class="absolute bottom-4 left-4 text-accent">
                 <p class="text-sm font-medium">{{ image.description }}</p>
               </div>
@@ -209,10 +204,7 @@ useHead({
           <div class="relative">
             <NuxtImg
               src="https://pixabay.com/get/gaf643efc7daa57d018d274466e9d3f76edd79a9184248157185eb8527355c5a22aa560812407bb604daff1fccea5c17b277305bd8225b8c6c63048865ef9cac3_1280.jpg"
-              alt="Наш виноградник"
-              class="w-full h-80 object-cover rounded-lg shadow-lg"
-              loading="lazy"
-            />
+              alt="Наш виноградник" class="w-full h-80 object-cover rounded-lg shadow-lg" loading="lazy" />
             <div class="absolute inset-0 bg-gradient-to-tr from-vine-600/20 to-transparent rounded-lg"></div>
           </div>
         </div>
@@ -226,10 +218,7 @@ useHead({
           <div class="order-2 lg:order-1">
             <NuxtImg
               src="https://pixabay.com/get/gf0ae5f91ad640c8c982b56f3357181c961c725d4695ea4c816cdc5717bdfabc06064a183b0b6a64fb935b00cdc9037c8e91db333389db5ab9c07216c3e357b67_1280.jpg"
-              alt="Место выращивания"
-              class="w-full h-80 object-cover rounded-lg shadow-lg"
-              loading="lazy"
-            />
+              alt="Место выращивания" class="w-full h-80 object-cover rounded-lg shadow-lg" loading="lazy" />
           </div>
           <div class="order-1 lg:order-2">
             <h2 class="text-3xl font-bold text-vine-800 mb-6">Где выращиваются наши саженцы</h2>
