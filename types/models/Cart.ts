@@ -5,13 +5,6 @@ export namespace Cart {
     items: Item[]
   }
 
-  export interface Item {
-    id: number
-    product: Product.Model
-    quantity: number
-  }
-}
-export namespace Cart {
   export interface AddItemDto {
     productId: number
     type: 'cutting' | 'seedling'

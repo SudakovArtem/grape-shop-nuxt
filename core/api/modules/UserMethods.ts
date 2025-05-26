@@ -8,13 +8,13 @@ export default (context: nuxtContext) => {
 
     async login(body: User.LoginDto): Promise<User.Session> {
       const config = UserMethods.USER_ENDPOINTS.login()
-      const result = await context.$services.useAPI.request<User.Session>({ config, body })
+      const result = await context.$services.useAPI.request<User.Session, User.LoginDto>({ config, body })
       return result
     }
 
     async register(body: User.RegisterDto): Promise<User.Model> {
       const config = UserMethods.USER_ENDPOINTS.register()
-      const result = await context.$services.useAPI.request<User.Model>({ config, body })
+      const result = await context.$services.useAPI.request<User.Model, User.RegisterDto>({ config, body })
       return result
     }
 
@@ -46,13 +46,13 @@ export default (context: nuxtContext) => {
 
     async updateProfile(body: User.UpdateProfileDto): Promise<User.Model> {
       const config = UserMethods.USER_ENDPOINTS.updateProfile()
-      const result = await context.$services.useAPI.request<User.Model>({ config, body })
+      const result = await context.$services.useAPI.request<User.Model, User.UpdateProfileDto>({ config, body })
       return result
     }
 
     async updateUser(id: string, body: User.UpdateProfileDto): Promise<User.Model> {
       const config = UserMethods.USER_ENDPOINTS.updateUser(id)
-      const result = await context.$services.useAPI.request<User.Model>({ config, body })
+      const result = await context.$services.useAPI.request<User.Model, User.UpdateProfileDto>({ config, body })
       return result
     }
 
@@ -64,19 +64,19 @@ export default (context: nuxtContext) => {
 
     async forgotPassword(body: User.ForgotPasswordDto): Promise<{ message: string }> {
       const config = UserMethods.USER_ENDPOINTS.forgotPassword()
-      const result = await context.$services.useAPI.request<{ message: string }>({ config, body })
+      const result = await context.$services.useAPI.request<{ message: string }, User.ForgotPasswordDto>({
+        config,
+        body
+      })
       return result
     }
 
     async resetPassword(body: User.ResetPasswordDto): Promise<{ message: string }> {
       const config = UserMethods.USER_ENDPOINTS.resetPassword()
-      const result = await context.$services.useAPI.request<{ message: string }>({ config, body })
-      return result
-    }
-
-    async adminLogin(body: User.LoginDto): Promise<User.Session> {
-      const config = UserMethods.USER_ENDPOINTS.adminLogin()
-      const result = await context.$services.useAPI.request<User.Session>({ config, body })
+      const result = await context.$services.useAPI.request<{ message: string }, User.ResetPasswordDto>({
+        config,
+        body
+      })
       return result
     }
   }

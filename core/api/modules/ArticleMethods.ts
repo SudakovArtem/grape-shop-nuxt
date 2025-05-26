@@ -1,4 +1,3 @@
-
 import type { nuxtContext } from '@nuxt/types'
 import type { Request, Response, Article, ArticleApi } from '@/types'
 import getParams from '@/core/utils/getParams'
@@ -9,7 +8,7 @@ export default (context: nuxtContext) => {
 
     async createArticle(body: Article.CreateDto): Promise<Article.Model> {
       const config = ArticleMethods.ARTICLE_ENDPOINTS.createArticle()
-      const result = await context.$services.useAPI.request<Article.Model>({ config, body })
+      const result = await context.$services.useAPI.request<Article.Model, Article.CreateDto>({ config, body })
       return result
     }
 
@@ -43,7 +42,7 @@ export default (context: nuxtContext) => {
 
     async updateArticle(id: string, body: Article.UpdateDto): Promise<Article.Model> {
       const config = ArticleMethods.ARTICLE_ENDPOINTS.updateArticle(id)
-      const result = await context.$services.useAPI.request<Article.Model>({ config, body })
+      const result = await context.$services.useAPI.request<Article.Model, Article.UpdateDto>({ config, body })
       return result
     }
 

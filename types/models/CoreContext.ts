@@ -9,7 +9,15 @@ import type {
   ProductService,
   ProductApi,
   ArticleService,
-  ArticleApi
+  ArticleApi,
+  CartService,
+  CategoryService,
+  OrderService,
+  UploadService,
+  CartApi,
+  OrderApi,
+  CategoryApi,
+  UploadApi
 } from '@/types'
 import type { Constants } from '@configs/modules/Constants.ts'
 
@@ -18,6 +26,10 @@ export namespace CoreContext {
     user: UserApi
     product: ProductApi
     article: ArticleApi
+    cart: CartApi
+    category: CategoryApi
+    order: OrderApi
+    upload: UploadApi
   }
 
   export interface Services {
@@ -26,6 +38,10 @@ export namespace CoreContext {
     user: UserService
     product: ProductService
     article: ArticleService
+    cart: CartService
+    category: CategoryService
+    order: OrderService
+    upload: UploadService
   }
 
   export interface Adapters {

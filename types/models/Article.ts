@@ -13,19 +13,6 @@ export namespace Article {
     authorName: string
     categoryName: string
   }
-}
-export namespace Article {
-  export interface Model {
-    id: number
-    title: string
-    content: string
-    slug: string
-    categoryId?: number
-    published: boolean
-    imageUrl?: string
-    createdAt: string
-    updatedAt: string
-  }
 
   export interface CreateDto {
     title: string

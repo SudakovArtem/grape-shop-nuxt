@@ -1,4 +1,3 @@
-
 export namespace Order {
   export interface Item {
     id: number
@@ -15,6 +14,6 @@ export namespace Order {
     totalPrice: string
     status: 'Создан' | 'В обработке' | 'Отправлен' | 'Доставлен' | 'Отменен'
     createdAt: string
-    items: Item[]
+    items: Order.Item[]
   }
 }

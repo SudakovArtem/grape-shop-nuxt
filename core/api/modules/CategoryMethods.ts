@@ -1,4 +1,3 @@
-
 import type { nuxtContext } from '@nuxt/types'
 import type { Request, Response, Category, CategoryApi } from '@/types'
 
@@ -20,13 +19,13 @@ export default (context: nuxtContext) => {
 
     async createCategory(body: Category.CreateDto): Promise<Category.Model> {
       const config = CategoryMethods.CATEGORY_ENDPOINTS.createCategory()
-      const result = await context.$services.useAPI.request<Category.Model>({ config, body })
+      const result = await context.$services.useAPI.request<Category.Model, Category.CreateDto>({ config, body })
       return result
     }
 
     async updateCategory(id: string, body: Category.UpdateDto): Promise<Category.Model> {
       const config = CategoryMethods.CATEGORY_ENDPOINTS.updateCategory(id)
-      const result = await context.$services.useAPI.request<Category.Model>({ config, body })
+      const result = await context.$services.useAPI.request<Category.Model, Category.UpdateDto>({ config, body })
       return result
     }
 

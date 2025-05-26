@@ -15,7 +15,12 @@ export namespace Product {
     inStock?: boolean
     createdAt: string
     updatedAt: string
-    images?: Image[]
+    images?: Product.Image[]
+  }
+
+  export type Image = {
+    id: number
+    url: string
   }
 
   export type UploadFile = {

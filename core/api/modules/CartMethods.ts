@@ -1,4 +1,3 @@
-
 import type { nuxtContext } from '@nuxt/types'
 import type { Request, Response, Cart, CartApi } from '@/types'
 
@@ -8,7 +7,7 @@ export default (context: nuxtContext) => {
 
     async addItem(body: Cart.AddItemDto): Promise<Cart.Item> {
       const config = CartMethods.CART_ENDPOINTS.addItem()
-      const result = await context.$services.useAPI.request<Cart.Item>({ config, body })
+      const result = await context.$services.useAPI.request<Cart.Item, Cart.AddItemDto>({ config, body })
       return result
     }
 
@@ -20,7 +19,7 @@ export default (context: nuxtContext) => {
 
     async updateItemQuantity(itemId: string, body: Cart.UpdateQuantityDto): Promise<Cart.Item> {
       const config = CartMethods.CART_ENDPOINTS.updateItemQuantity(itemId)
-      const result = await context.$services.useAPI.request<Cart.Item>({ config, body })
+      const result = await context.$services.useAPI.request<Cart.Item, Cart.UpdateQuantityDto>({ config, body })
       return result
     }
 
