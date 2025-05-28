@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@plugin "@tailwindcss/typography";
+
 @custom-variant dark (&:is(.dark-mode *));
 
 @theme inline {
@@ -184,46 +186,5 @@
   }
   body {
     @apply bg-background text-foreground;
-  }
-
-  .cascade h1 {
-    @apply text-3xl font-bold text-primary mb-6 tracking-tight;
-  }
-
-  .cascade h2 {
-    @apply text-2xl font-semibold text-foreground mt-8 mb-4;
-  }
-
-  .cascade h3 {
-    @apply text-xl font-medium text-foreground mt-6 mb-3;
-  }
-
-  .cascade p {
-    @apply text-base text-muted-foreground leading-relaxed mb-4;
-  }
-
-  .cascade ul {
-    @apply list-disc pl-6 mb-4;
-  }
-
-  .cascade li {
-    @apply text-base text-muted-foreground mb-2;
-  }
-
-  .cascade strong {
-    @apply font-semibold text-foreground;
-  }
-
-  .cascade a {
-    @apply text-primary hover:underline hover:text-primary-foreground transition-colors duration-200;
-  }
-
-  /* Стили для таблицы */
-  .cascade p:nth-child(odd of :where(p)) {
-    @apply text-sm font-medium text-foreground bg-muted py-2 px-4 border border-border;
-  }
-
-  .cascade p:nth-child(even of :where(p)) {
-    @apply text-sm text-muted-foreground py-2 px-4 border border-border;
   }
 }

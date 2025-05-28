@@ -12,7 +12,13 @@ export default ({ $config, $services }: nuxtContext): ApiClientService => {
       private services: nuxtContext['$services']
     ) {}
 
-    async request<T>({ config, body = {} }: { config: Request.Config; body?: Request.Body | FormData }): Promise<T> {
+    async request<T = unknown, K = unknown>({
+      config,
+      body = {}
+    }: {
+      config: Request.Config
+      body?: K | Request.Body | FormData
+    }): Promise<T> {
       try {
         const { url, options } = this.prepareRequest({ config, body })
 
@@ -38,19 +44,19 @@ export default ({ $config, $services }: nuxtContext): ApiClientService => {
           }
         })
 
-        return result
+        return result as T
       } catch (error: unknown) {
         this.handleError(error)
         return {} as T
       }
     }
 
-    private prepareRequest({
+    private prepareRequest<T>({
       config,
       body
     }: {
       config: Request.Config
-      body: Request.Body | FormData
+      body: T | Request.Body | FormData
     }): Request.Prepared {
       const {
         url = '',
@@ -75,8 +81,8 @@ export default ({ $config, $services }: nuxtContext): ApiClientService => {
         options.signal = this.services.abort.getControllerSignal()
       }
 
-      if (body instanceof FormData || Object.keys(body).length > 0) {
-        options.body = body
+      if (body instanceof FormData || Object.keys(body as object).length > 0) {
+        options.body = body as Request.Body
       }
 
       if (this.token) {
