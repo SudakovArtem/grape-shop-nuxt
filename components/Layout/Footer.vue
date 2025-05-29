@@ -81,7 +81,10 @@
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/catalog?inStock=true" class="text-vine-200 hover:text-white transition-colors text-sm">
+              <NuxtLink
+                to="/catalog?cuttingInStock=true&seedlingInStock=true"
+                class="text-vine-200 hover:text-white transition-colors text-sm"
+              >
                 В наличии
               </NuxtLink>
             </li>

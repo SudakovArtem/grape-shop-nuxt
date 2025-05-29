@@ -273,7 +273,7 @@ function handleClickOutside(event: Event) {
 onMounted(() => {
   document.addEventListener('click', handleClickOutside)
   // Initialize stores
-  cartStore.loadCart()
+  // cartStore.loadCart()
 })
 
 onUnmounted(() => {

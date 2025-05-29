@@ -8,7 +8,8 @@ interface Filters {
   taste: string[]
   collection: string
   maturationPeriod: string
-  inStock: boolean
+  cuttingInStock: boolean
+  seedlingInStock: boolean
 }
 
 interface Collection {
@@ -41,7 +42,8 @@ const hasActiveFilters = computed(() => {
     localFilters.value.taste.length !== 0 ||
     localFilters.value.maturationPeriod !== '' ||
     localFilters.value.collection !== '' ||
-    localFilters.value.inStock
+    localFilters.value.cuttingInStock ||
+    localFilters.value.seedlingInStock
   )
 })
 
@@ -73,10 +75,10 @@ function updateFilters() {
 //   updateFilters()
 // }
 
-function toggleInStock(checked: boolean) {
-  localFilters.value.inStock = checked
-  updateFilters()
-}
+// function toggleInStock(checked: boolean) {
+//   localFilters.value.inStock = checked
+//   updateFilters()
+// }
 
 function clearFilters() {
   localFilters.value.search = ''
@@ -85,7 +87,8 @@ function clearFilters() {
   localFilters.value.taste = []
   localFilters.value.collection = ''
   localFilters.value.maturationPeriod = ''
-  localFilters.value.inStock = false
+  localFilters.value.cuttingInStock = false
+  localFilters.value.seedlingInStock = false
   updateFilters()
 }
 
@@ -245,8 +248,14 @@ function getColorClass(color: string): string {
     <!-- In Stock -->
     <div>
       <label class="flex items-center gap-2">
-        <UiCheckbox v-model="localFilters.inStock" />
-        <span class="text-sm font-medium text-vine-700">Только в наличии</span>
+        <UiCheckbox v-model="localFilters.cuttingInStock" />
+        <span class="text-sm font-medium text-vine-700"> Черенок в наличии </span>
+      </label>
+    </div>
+    <div>
+      <label class="flex items-center gap-2">
+        <UiCheckbox v-model="localFilters.seedlingInStock" />
+        <span class="text-sm font-medium text-vine-700"> Саженец в наличии </span>
       </label>
     </div>
 
@@ -266,7 +275,12 @@ function getColorClass(color: string): string {
         <span v-if="localFilters.taste" class="px-2 py-1 bg-vine-100 text-vine-800 rounded text-xs">
           {{ localFilters.taste }}
         </span>
-        <span v-if="localFilters.inStock" class="px-2 py-1 bg-vine-100 text-vine-800 rounded text-xs"> В наличии </span>
+        <span v-if="localFilters.cuttingInStock" class="px-2 py-1 bg-vine-100 text-vine-800 rounded text-xs">
+          Черенок в наличии
+        </span>
+        <span v-if="localFilters.seedlingInStock" class="px-2 py-1 bg-vine-100 text-vine-800 rounded text-xs">
+          Саженец в наличии
+        </span>
       </div>
     </div>
   </UiCard>

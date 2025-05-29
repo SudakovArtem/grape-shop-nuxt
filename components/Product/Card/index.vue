@@ -22,7 +22,7 @@
             {{ name }}
           </NuxtLink>
         </h3>
-        <span v-if="!inStock" class="ml-2 px-2 py-1 bg-red-100 text-red-800 rounded text-xs flex-shrink-0">
+        <span v-if="!cuttingInStock" class="ml-2 px-2 py-1 bg-red-100 text-red-800 rounded text-xs flex-shrink-0">
           Нет в наличии
         </span>
       </div>
@@ -45,51 +45,28 @@
       <!--      </div>-->
 
       <!-- Price and Actions -->
-      <div class="flex items-center justify-between">
-        <div>
-          <span class="text-lg font-bold text-vine-700">
-            {{ formatPrice(seedlingPrice) }}
-          </span>
-        </div>
-
-        <UiButton @click="addToCart" size="sm" :disabled="!inStock || adding" class="bg-vine-600 hover:bg-vine-700">
-          {{ adding ? '...' : 'В корзину' }}
-        </UiButton>
-      </div>
+      <UiTabs v-model="productType" class="w-full gap-2">
+        <UiTabsList class="w-full">
+          <UiTabsTrigger value="cutting"> Черенок </UiTabsTrigger>
+          <UiTabsTrigger value="seedling"> Саженец </UiTabsTrigger>
+        </UiTabsList>
+        <UiTabsContent value="cutting">
+          <ProductCardPrice :price="cuttingPrice" :itemsInStock="cuttingInStock" type="cutting" :product-id="id" />
+        </UiTabsContent>
+        <UiTabsContent value="seedling">
+          <ProductCardPrice :price="seedlingPrice" :itemsInStock="seedlingInStock" type="seedling" :product-id="id" />
+        </UiTabsContent>
+      </UiTabs>
     </div>
   </UiCard>
 </template>
 
 <script setup lang="ts">
-import { useCartStore } from '@/stores/cart'
 import type { Product } from '@/types'
 
-const props = defineProps<Product.Model>()
+defineProps<Product.Model>()
 
-const cartStore = useCartStore()
-const adding = ref(false)
-
-async function addToCart() {
-  if (!props.inStock || adding.value) return
-
-  adding.value = true
-  try {
-    await cartStore.addItem(props.id, 1)
-    // Could add a toast notification here
-  } catch (error) {
-    console.error('Error adding to cart:', error)
-  } finally {
-    adding.value = false
-  }
-}
-
-function formatPrice(price: string): string {
-  const priceNumber = Number(price)
-  return new Intl.NumberFormat('ru-RU', {
-    style: 'currency',
-    currency: 'RUB'
-  }).format(priceNumber)
-}
+const productType = ref<'cutting' | 'seedling'>('cutting')
 
 function getColorClass(color: string): string {
   const colorMap: Record<string, string> = {

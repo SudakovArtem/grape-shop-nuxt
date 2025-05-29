@@ -117,7 +117,6 @@ const { pageNumber, pageSize, list, loadList, setPageNumber, totalCount, increas
 // const search = ref<string>('')
 
 const onSearch = debounce(() => {
-  console.log(123)
   setPageNumber(1)
   refresh()
 }, 800)
@@ -130,7 +129,8 @@ const filters = reactive({
   taste: [],
   collection: '',
   maturationPeriod: '',
-  inStock: false
+  cuttingInStock: false,
+  seedlingInStock: false
 })
 
 watch(filters, onSearch, { deep: true })
@@ -145,6 +145,8 @@ const {
       pageSize: unref(pageSize).toString(),
       pageNumber: unref(pageNumber).toString(),
       ...filters,
+      cuttingInStock: filters.cuttingInStock ? '1' : '',
+      seedlingInStock: filters.seedlingInStock ? '1' : '',
       sortBy: unref(sortBy)
     }),
   {

@@ -46,7 +46,7 @@
                 <span v-if="product.seedlingPrice" class="text-2xl font-bold text-vine-700">{{
                   formatPrice(product.seedlingPrice)
                 }}</span>
-                <span v-if="!product.inStock" class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
+                <span v-if="!product.cuttingInStock" class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
                   Нет в наличии
                 </span>
                 <span v-else class="px-3 py-1 bg-vine-100 text-vine-800 rounded-full text-sm"> В наличии </span>
@@ -90,14 +90,14 @@
                 </div>
                 <UiButton
                   @click="addToCart"
-                  :disabled="!product.inStock || adding"
+                  :disabled="!product.cuttingInStock || adding"
                   class="bg-vine-600 hover:bg-vine-700 text-accent px-8"
                 >
                   {{ adding ? 'Добавление...' : 'В корзину' }}
                 </UiButton>
               </div>
               <p class="text-sm text-vine-600">
-                {{ product.inStock ? 'Товар в наличии' : 'Товар временно отсутствует' }}
+                {{ product.cuttingInStock ? 'Товар в наличии' : 'Товар временно отсутствует' }}
               </p>
             </div>
           </div>

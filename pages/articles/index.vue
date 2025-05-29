@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import { debounce } from 'lodash'
 import type { Article, Response } from '@/types'
 
-const {
-  public: { baseApiUrl }
-} = useRuntimeConfig()
 const { article: articleService } = useServices()
 
-// const categories = ref([])
 const searchQuery = ref('')
 const selectedCategories = ref<Array<Article.Category['id']>>([])
 
@@ -19,24 +14,24 @@ const { pageNumber, pageSize, list, loadList, setPageNumber, totalCount, increas
 
 // const search = ref<string>('')
 
-const onSearch = debounce(() => {
-  setPageNumber(1)
-  refresh()
-}, 800)
+// const onSearch = debounce(() => {
+//   setPageNumber(1)
+//   refresh()
+// }, 800)
 
-const sortBy = ref('createdAt_desc')
-const filters = reactive({
-  search: '',
-  berryShape: '',
-  color: [],
-  taste: [],
-  collection: '',
-  maturationPeriod: '',
-  inStock: false
-})
+// const sortBy = ref('createdAt_desc')
+// const filters = reactive({
+//   search: '',
+//   berryShape: '',
+//   color: [],
+//   taste: [],
+//   collection: '',
+//   maturationPeriod: '',
+//   inStock: false
+// })
 
-watch(filters, onSearch, { deep: true })
-watch(sortBy, onSearch)
+// watch(filters, onSearch, { deep: true })
+// watch(sortBy, onSearch)
 
 const {
   data: articles,

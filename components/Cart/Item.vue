@@ -96,7 +96,7 @@
         </div>
 
         <!-- Stock Status -->
-        <div v-if="!item.inStock" class="mt-2">
+        <div v-if="!item.cuttingInStock" class="mt-2">
           <span class="text-xs text-red-600 bg-red-50 px-2 py-1 rounded"> Товар временно отсутствует </span>
         </div>
       </div>
