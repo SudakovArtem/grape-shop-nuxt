@@ -37,51 +37,113 @@
             </UiButton>
           </div>
 
-          <form v-if="editMode" @submit.prevent="saveProfile" class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-vine-700 mb-1">Имя</label>
-                <UiInput v-model="profileForm.name" required />
+          <UiForm 
+            v-if="editMode" 
+            v-slot="{ handleSubmit }" 
+            as="" 
+            keep-values 
+            :validation-schema="toTypedSchema(profileSchema)"
+            :initial-values="profileForm"
+          >
+            <form @submit="handleSubmit($event, saveProfile)" class="space-y-4">
+              <div class="flex flex-col md:flex-row md:items-start gap-6">
+                <!-- Avatar Section -->
+                <div class="flex-shrink-0">
+                  <UiFormField v-slot="{ componentField }" name="avatar">
+                    <UiFormItem>
+                      <UiFormLabel class="text-sm font-medium text-vine-700">Фото профиля</UiFormLabel>
+                      <UiFormControl>
+                        <AvatarUpload v-bind="componentField" />
+                      </UiFormControl>
+                      <UiFormMessage />
+                    </UiFormItem>
+                  </UiFormField>
+                </div>
+
+                <!-- Form Fields -->
+                <div class="flex-1 space-y-4">
+                  <UiFormField v-slot="{ componentField }" name="name">
+                    <UiFormItem>
+                      <UiFormLabel>Имя</UiFormLabel>
+                      <UiFormControl>
+                        <UiInput type="text" placeholder="Ваше имя" v-bind="componentField" />
+                      </UiFormControl>
+                      <UiFormMessage />
+                    </UiFormItem>
+                  </UiFormField>
+
+                  <UiFormField v-slot="{ componentField }" name="phone">
+                    <UiFormItem>
+                      <UiFormLabel>Телефон (необязательно)</UiFormLabel>
+                      <UiFormControl>
+                        <UiInput type="tel" placeholder="+7 (999) 123-45-67" v-bind="componentField" />
+                      </UiFormControl>
+                      <UiFormMessage />
+                    </UiFormItem>
+                  </UiFormField>
+
+                  <UiFormField v-slot="{ componentField }" name="address">
+                    <UiFormItem>
+                      <UiFormLabel>Адрес доставки (необязательно)</UiFormLabel>
+                      <UiFormControl>
+                        <UiInput type="text" placeholder="Ваш адрес" v-bind="componentField" />
+                      </UiFormControl>
+                      <UiFormMessage />
+                    </UiFormItem>
+                  </UiFormField>
+                </div>
               </div>
-              <div>
-                <label class="block text-sm font-medium text-vine-700 mb-1">Email</label>
-                <UiInput v-model="profileForm.email" type="email" required />
+
+              <div class="flex gap-2 pt-4 border-t border-vine-100">
+                <UiButton type="submit" :disabled="saving">
+                  {{ saving ? 'Сохранение...' : 'Сохранить' }}
+                </UiButton>
+                <UiButton @click="editMode = false" variant="outline" type="button">
+                  Отменить
+                </UiButton>
               </div>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-vine-700 mb-1">Телефон</label>
-              <UiInput v-model="profileForm.phone" type="tel" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-vine-700 mb-1">Адрес доставки</label>
-              <UiInput v-model="profileForm.address" />
-            </div>
-            <div class="flex gap-2">
-              <UiButton type="submit" :disabled="saving">
-                {{ saving ? 'Сохранение...' : 'Сохранить' }}
-              </UiButton>
-              <UiButton @click="editMode = false" variant="outline"> Отменить </UiButton>
-            </div>
-          </form>
+            </form>
+          </UiForm>
 
           <div v-else class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm text-vine-600">Имя</label>
-                <p class="font-medium">{{ user?.name || 'Не указано' }}</p>
+            <div class="flex flex-col gap-6">
+              <!-- Avatar Section -->
+              <div class="flex-shrink-0">
+                  <p class="text-sm text-vine-600 mb-2">Фото профиля</p>
+                  <div class="w-24 h-24 rounded-full border-2 border-vine-200 overflow-hidden bg-vine-50 flex items-center justify-center">
+                    <img 
+                      v-if="user?.avatar" 
+                      :src="user.avatar" 
+                      alt="Avatar" 
+                      class="w-full h-full object-cover"
+                    />
+                    <div v-else class="text-vine-400">
+                      <Icon name="i-lucide-user" class="w-8 h-8" />
+                    </div>
+                </div>
               </div>
-              <div>
-                <label class="block text-sm text-vine-600">Email</label>
-                <p class="font-medium">{{ user?.email }}</p>
+
+              <!-- User Info -->
+              <div class="flex-1 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm text-vine-600">Имя</label>
+                    <p class="font-medium">{{ user?.name || 'Не указано' }}</p>
+                  </div>
+                  <div>
+                    <label class="block text-sm text-vine-600">Email</label>
+                    <p class="font-medium">{{ user?.email }}</p>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-sm text-vine-600">Телефон</label>
+                  <p class="font-medium">{{ user?.phone || 'Не указано' }}</p>
+                </div>
+                <div>
+                  <label class="block text-sm text-vine-600">Адрес доставки</label>
+                  <p class="font-medium">{{ user?.address || 'Не указано' }}</p>
+                </div>
               </div>
-            </div>
-            <div>
-              <label class="block text-sm text-vine-600">Телефон</label>
-              <p class="font-medium">{{ user?.phone || 'Не указано' }}</p>
-            </div>
-            <div>
-              <label class="block text-sm text-vine-600">Адрес доставки</label>
-              <p class="font-medium">{{ user?.address || 'Не указано' }}</p>
             </div>
           </div>
         </UiCard>
@@ -171,6 +233,9 @@
 </template>
 
 <script setup lang="ts">
+import { toTypedSchema } from '@vee-validate/zod'
+import { toast } from 'vue-sonner'
+import { z } from "zod"
 import useAuthStore from '@/stores/auth'
 import useUserStore from '@/stores/user'
 import type { Response, Order } from '@/types'
@@ -178,17 +243,24 @@ import type { Response, Order } from '@/types'
 const authStore = useAuthStore()
 const { isAuth } = storeToRefs(authStore)
 const { user } = storeToRefs(useUserStore())
-const { order: orderService } = useServices()
+const { order: orderService, user: userService } = useServices()
 
 const editMode = ref(false)
 const saving = ref(false)
 const ordersLoading = ref(true)
 
+const profileSchema = z.object({
+  name: z.string().min(1, 'Введите ваше имя'),
+  phone: z.string().optional(),
+  address: z.string().optional(),
+  avatar: z.string().nullable().optional()
+})
+
 const profileForm = reactive({
   name: '',
-  email: '',
   phone: '',
-  address: ''
+  address: '',
+  avatar: null as string | null
 })
 
 const {
@@ -205,23 +277,34 @@ onMounted(async () => {
 function initProfileForm() {
   if (user.value) {
     profileForm.name = user.value.name || ''
-    profileForm.email = user.value.email || ''
     profileForm.phone = user.value.phone || ''
     profileForm.address = user.value.address || ''
+    profileForm.avatar = user.value.avatar || null
   }
 }
 
-async function saveProfile() {
-  console.log('saveProfile')
-  // saving.value = true
-  // try {
-  //   await authStore.updateProfile(profileForm)
-  //   editMode.value = false
-  // } catch (error) {
-  //   console.error('Error saving profile:', error)
-  // } finally {
-  //   saving.value = false
-  // }
+async function saveProfile(data: any) {
+  saving.value = true
+  try {
+    await userService.updateProfile(data)
+    
+    toast({ 
+      title: 'Успешно', 
+      description: 'Профиль обновлен успешно.', 
+      color: 'success' 
+    })
+    
+    editMode.value = false
+  } catch (error) {
+    toast({ 
+      title: 'Ошибка', 
+      description: 'Произошла ошибка при обновлении профиля.', 
+      color: 'error' 
+    })
+    console.error('Error saving profile:', error)
+  } finally {
+    saving.value = false
+  }
 }
 
 const { pageNumber, pageSize, list, loadList, increasePageNumber, totalCount, setPageNumber } =
@@ -294,7 +377,7 @@ function formatPrice(price: string): string {
 }
 
 function getStatusLabel(status: string): string {
-  const labels = {
+  const labels: Record<string, string> = {
     pending: 'Ожидает оплаты',
     processing: 'В обработке',
     shipped: 'Отправлен',
@@ -305,7 +388,7 @@ function getStatusLabel(status: string): string {
 }
 
 function getStatusClass(status: string): string {
-  const classes = {
+  const classes: Record<string, string> = {
     pending: 'bg-yellow-100 text-yellow-800',
     processing: 'bg-blue-100 text-blue-800',
     shipped: 'bg-purple-100 text-purple-800',

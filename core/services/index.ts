@@ -11,12 +11,12 @@ import UploadService from '@services/modules/UploadService'
 import ArticleService from '@services/modules/ArticleService'
 
 const serviceList: coreFunctionList = [
-  APIClientService, 
-  UserService, 
-  ProductService, 
-  CartService, 
-  OrderService, 
-  CategoryService, 
+  APIClientService,
+  CartService,
+  UserService,
+  ProductService,
+  OrderService,
+  CategoryService,
   UploadService,
   ArticleService,
   AbortService

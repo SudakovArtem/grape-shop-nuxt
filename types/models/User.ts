@@ -53,6 +53,7 @@ export namespace User {
     name?: string
     phone?: string
     address?: string
+    avatar?: string
   }
 
   export interface CooperationDto {
@@ -61,48 +62,6 @@ export namespace User {
     phone: string
     description: string
     agreement: boolean
-  }
-
-  export interface UpdateData {
-    email: string
-    ogrn: string
-    fullName: string
-    phone: string
-    description: string
-    jobTitle: string
-    cvLink: string
-    telegram: SocialMedia['telegram']
-    vk: SocialMedia['vk']
-    hh: SocialMedia['hh']
-  }
-
-  export interface UpdateDto extends Record<string, unknown> {
-    email: string
-    ogrn: string
-    fullName: string
-    phone: string
-    description: string
-    jobTitle: string
-    cvLink: string
-    socialMedia: SocialMedia
-    direction: number | null
-    status: number | null
-  }
-
-  export type DirectionServerResponse = {
-    id: number
-    value: string
-    updatedAt: string | null
-    createdAt: string
-    deletedAt: string | null
-  }
-
-  export type StatusServerResponse = {
-    id: number
-    value: string
-    updatedAt: string | null
-    createdAt: string
-    deletedAt: string | null
   }
 
   export interface Model {
@@ -118,25 +77,5 @@ export namespace User {
 
   export interface Session {
     accessToken: string
-  }
-
-  export interface ServerModel {
-    id: number
-    fullName: string
-    email: string
-    ogrn: string
-    userType: string
-    phone: string
-    description: string
-    jobTitle: string
-    cvLink: string
-    role: string
-    isVisible: boolean
-    socialMedia: SocialMedia
-    direction: DirectionServerResponse
-    status: StatusServerResponse
-    updatedAt: string | null
-    createdAt: string
-    deletedAt: string | null
   }
 }

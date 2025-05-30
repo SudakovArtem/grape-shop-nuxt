@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod'
 import { toast } from 'vue-sonner'
-import * as z from 'zod'
+import { z } from "zod"
 import useAuthStore from '@/stores/auth'
 import { storeToRefs } from 'pinia'
 

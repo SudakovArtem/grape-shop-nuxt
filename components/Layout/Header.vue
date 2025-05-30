@@ -96,7 +96,7 @@
                 <span class="sr-only">Toggle theme</span>
               </UiButton>
             </UiDropdownMenuTrigger>
-            <UiDropdownMenuContent align="end">
+            <UiDropdownMenuContent>
               <UiDropdownMenuItem @click="colorMode.preference = 'light'"> Light </UiDropdownMenuItem>
               <UiDropdownMenuItem @click="colorMode.preference = 'dark'"> Dark </UiDropdownMenuItem>
               <UiDropdownMenuItem @click="colorMode.preference = 'system'"> System </UiDropdownMenuItem>
@@ -106,31 +106,32 @@
           <!-- User Menu -->
           <div class="relative">
             <UiButton v-if="!isAuth" @click="openModal('login')" variant="outline" size="sm"> Войти </UiButton>
-            <div v-else class="relative">
-              <UiButton @click="showUserMenu = !showUserMenu" variant="ghost" size="sm" class="flex items-center gap-2">
-                <Icon name="i-lucide-user-round" class="size-5" />
-                <span class="hidden sm:inline">{{ user?.name || 'Профиль' }}</span>
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"></path>
-                </svg>
-              </UiButton>
-
-              <div
-                v-if="showUserMenu"
-                class="absolute right-0 mt-2 w-48 bg-background rounded-lg shadow-lg border border-vine-200 py-1 z-10"
-              >
-                <NuxtLink
-                  to="/profile"
-                  class="block px-4 py-2 text-sm text-vine-700 hover:bg-vine-50"
-                  @click="showUserMenu = false"
-                >
-                  Личный кабинет
-                </NuxtLink>
-                <button @click="logout" class="block w-full text-left px-4 py-2 text-sm text-vine-700 hover:bg-vine-50">
+            <UiDropdownMenu v-else>
+              <UiDropdownMenuTrigger as-child>
+                <UiButton variant="ghost" size="sm" class="flex items-center gap-2">
+                  <UiAvatar>
+                    <UiAvatarImage v-if="user?.avatar" :src="user.avatar" alt="@unovue" />
+                    <UiAvatarFallback>
+                      <Icon name="i-lucide-user-round" class="size-5" />
+                    </UiAvatarFallback>
+                  </UiAvatar>
+                  <span class="hidden sm:inline">{{ user?.name || 'Профиль' }}</span>
+                  <Icon name="i-lucide-chevron-down" class="w-4 h-4" />
+                </UiButton>
+              </UiDropdownMenuTrigger>
+              <UiDropdownMenuContent align="end">
+                <UiDropdownMenuItem as-child>
+                  <NuxtLink to="/profile" class="flex items-center">
+                    <Icon name="i-lucide-user" class="w-4 h-4 mr-2" />
+                    Личный кабинет
+                  </NuxtLink>
+                </UiDropdownMenuItem>
+                <UiDropdownMenuItem @click="logout">
+                  <Icon name="i-lucide-log-out" class="w-4 h-4 mr-2" />
                   Выйти
-                </button>
-              </div>
-            </div>
+                </UiDropdownMenuItem>
+              </UiDropdownMenuContent>
+            </UiDropdownMenu>
           </div>
 
           <!-- Mobile Menu Toggle -->
@@ -202,10 +203,10 @@ const { isAuth } = storeToRefs(authStore)
 const { totalItems } = storeToRefs(useCartStore())
 const router = useRouter()
 const { user } = storeToRefs(useUserStore())
+const { user: userService } = useServices()
 
 const searchQuery = ref('')
 const showMobileMenu = ref(false)
-const showUserMenu = ref(false)
 
 function performSearch() {
   if (searchQuery.value.trim()) {
@@ -219,26 +220,8 @@ function performSearch() {
 }
 
 async function logout() {
-  // await authStore.logout()
-  // showUserMenu.value = false
-  console.log('logout')
+  router.push('/')
+  userService.logout()
 }
 
-// Close menus when clicking outside
-function handleClickOutside(event: Event) {
-  const target = event.target as Element
-  if (!target.closest('.relative')) {
-    showUserMenu.value = false
-  }
-}
-
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-  // Initialize stores
-  // cartStore.loadCart()
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
 </script>

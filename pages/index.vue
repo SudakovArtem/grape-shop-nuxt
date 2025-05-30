@@ -4,32 +4,32 @@ import type { Product, Response } from '@/types'
 // Harvest images from stock photos
 const harvestImages = [
   {
-    src: 'https://pixabay.com/get/g6125c96cdf2059a5f0a4bc45a791a606b074dbca2f3055f7c054981912944cf4c784b9c29087eedc10fbbfe574e7dbac09c1fdcf37b4b3a04baf2b63529fdefc_1280.jpg',
+    src: 'https://images.unsplash.com/photo-1537640538966-79f369143f8f?w=800&h=600&fit=crop&crop=center',
     alt: 'Урожай винограда',
     description: 'Богатый урожай красных сортов'
   },
   {
-    src: 'https://pixabay.com/get/gecf044f759e2c8371205b11550591c801fa22ca2acd0827abd8ca7c1927ee7715878f0e798df572a88eed3af9dc208d14358403418eb1bea3f92e8ac02bb6535_1280.jpg',
+    src: 'https://images.unsplash.com/photo-1560493676-04071c5f467b?w=800&h=600&fit=crop&crop=center',
     alt: 'Сбор винограда',
     description: 'Ручной сбор спелых ягод'
   },
   {
-    src: 'https://pixabay.com/get/g1283f2253dc473f23761bc287f02f7cbc379028c4acddee718eb73753cc82dd2768f63e9be9b8501b2579e716b88d618f9eb74a9992ecf96e7c434db1112f9d4_1280.jpg',
+    src: 'https://images.unsplash.com/photo-1508108712903-49b7ef9b1df8?w=800&h=600&fit=crop&crop=center',
     alt: 'Виноградные гроздья',
     description: 'Идеальные гроздья винограда'
   },
   {
-    src: 'https://pixabay.com/get/g2e8bd4abd729ffc6288cf46c90b99ffd938eba6d67de3218379e059051a68314f312c172fc74c33f2966e6361ff99ea3ad4bf62e59a40b5d9dcb3fb56c2d78bf_1280.jpg',
+    src: 'https://images.unsplash.com/photo-1535223289827-42f1e9919769?w=800&h=600&fit=crop&crop=center',
     alt: 'Урожай белого винограда',
     description: 'Солнечные белые сорта'
   },
   {
-    src: 'https://pixabay.com/get/g42a494ec0830e074cca4b51bf964ce30918349f9e5cd62fbc097e220c138341689fa09783df864369872e63bd610a3daf2efccd68b6b01ac02b663de43c31e53_1280.jpg',
+    src: 'https://images.unsplash.com/photo-1571613316887-6f8d5cbf7ef7?w=800&h=600&fit=crop&crop=center',
     alt: 'Виноград в корзине',
     description: 'Свежий урожай в корзине'
   },
   {
-    src: 'https://pixabay.com/get/g339f3534b656f81b897fa3d09ecc007717b51f2fc18758dbcee300d559ec445c546235f626162beb8a07f3a6f52d8ab6ee117476a633a17f395df2a87be76bbb_1280.jpg',
+    src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=center',
     alt: 'Осенний урожай',
     description: 'Осенние краски винограда'
   }
@@ -203,7 +203,7 @@ useHead({
           </div>
           <div class="relative">
             <NuxtImg
-              src="https://pixabay.com/get/gaf643efc7daa57d018d274466e9d3f76edd79a9184248157185eb8527355c5a22aa560812407bb604daff1fccea5c17b277305bd8225b8c6c63048865ef9cac3_1280.jpg"
+              src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=center"
               alt="Наш виноградник" class="w-full h-80 object-cover rounded-lg shadow-lg" loading="lazy" />
             <div class="absolute inset-0 bg-gradient-to-tr from-vine-600/20 to-transparent rounded-lg"></div>
           </div>
@@ -217,7 +217,7 @@ useHead({
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div class="order-2 lg:order-1">
             <NuxtImg
-              src="https://pixabay.com/get/gf0ae5f91ad640c8c982b56f3357181c961c725d4695ea4c816cdc5717bdfabc06064a183b0b6a64fb935b00cdc9037c8e91db333389db5ab9c07216c3e357b67_1280.jpg"
+              src="https://images.unsplash.com/photo-1508108712903-49b7ef9b1df8?w=800&h=600&fit=crop&crop=center"
               alt="Место выращивания" class="w-full h-80 object-cover rounded-lg shadow-lg" loading="lazy" />
           </div>
           <div class="order-1 lg:order-2">
