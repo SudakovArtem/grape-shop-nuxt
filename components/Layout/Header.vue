@@ -51,43 +51,6 @@
             </UiNavigationMenuItem>
           </UiNavigationMenuList>
         </UiNavigationMenu>
-        <!--        <nav class="hidden lg:flex items-center space-x-8">-->
-        <!--          <NuxtLink-->
-        <!--            to="/"-->
-        <!--            class="text-vine-700 hover:text-vine-800 transition-colors"-->
-        <!--            :class="{ 'text-vine-800 font-medium': $route.path === '/' }"-->
-        <!--          >-->
-        <!--            Главная-->
-        <!--          </NuxtLink>-->
-        <!--          <NuxtLink-->
-        <!--            to="/catalog"-->
-        <!--            class="text-vine-700 hover:text-vine-800 transition-colors"-->
-        <!--            :class="{ 'text-vine-800 font-medium': $route.path.startsWith('/catalog') }"-->
-        <!--          >-->
-        <!--            Каталог-->
-        <!--          </NuxtLink>-->
-        <!--          <NuxtLink-->
-        <!--            to="/articles"-->
-        <!--            class="text-vine-700 hover:text-vine-800 transition-colors"-->
-        <!--            :class="{ 'text-vine-800 font-medium': $route.path.startsWith('/articles') }"-->
-        <!--          >-->
-        <!--            Статьи-->
-        <!--          </NuxtLink>-->
-        <!--          <NuxtLink-->
-        <!--            to="/contact"-->
-        <!--            class="text-vine-700 hover:text-vine-800 transition-colors"-->
-        <!--            :class="{ 'text-vine-800 font-medium': $route.path === '/contact' }"-->
-        <!--          >-->
-        <!--            Контакты-->
-        <!--          </NuxtLink>-->
-        <!--          <NuxtLink-->
-        <!--            to="/shipping"-->
-        <!--            class="text-vine-700 hover:text-vine-800 transition-colors"-->
-        <!--            :class="{ 'text-vine-800 font-medium': $route.path === '/shipping' }"-->
-        <!--          >-->
-        <!--            Доставка-->
-        <!--          </NuxtLink>-->
-        <!--        </nav>-->
 
         <!-- Actions -->
         <div class="flex items-center gap-4">
@@ -111,10 +74,10 @@
             <UiButton variant="ghost" size="sm" class="relative">
               <Icon name="i-lucide-shopping-cart" class="size-5" />
               <span
-                v-if="cartStore.totalItems > 0"
+                v-if="totalItems > 0"
                 class="absolute -top-2 -right-2 bg-vine-600 text-accent text-xs rounded-full w-5 h-5 flex items-center justify-center"
               >
-                {{ cartStore.totalItems }}
+                {{ totalItems }}
               </span>
             </UiButton>
           </NuxtLink>
@@ -229,7 +192,6 @@
 
 <script setup lang="ts">
 import useAuthStore from '@/stores/auth'
-import { useCartStore } from '@/stores/cart'
 import useUserStore from '@/stores/user'
 import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
 
@@ -237,7 +199,7 @@ const colorMode = useColorMode()
 const authStore = useAuthStore()
 const { openModal } = authStore
 const { isAuth } = storeToRefs(authStore)
-const cartStore = useCartStore()
+const { totalItems } = storeToRefs(useCartStore())
 const router = useRouter()
 const { user } = storeToRefs(useUserStore())
 

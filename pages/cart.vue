@@ -17,7 +17,7 @@
         <h1 class="text-3xl font-bold text-vine-800 mb-4">Корзина</h1>
       </div>
 
-      <div v-if="!cart?.items?.length" class="text-center py-12">
+      <div v-if="!items?.length" class="text-center py-12">
         <div class="mb-4">
           <Icon name="i-lucide-grape" class="w-16 h-16 mx-auto text-vine-300" />
         </div>
@@ -31,13 +31,7 @@
       <div v-else class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Cart Items -->
         <div class="lg:col-span-2 space-y-4">
-          <CartItem
-            v-for="item in cart.items"
-            :key="item.id"
-            :item="item"
-            @update-quantity="updateQuantity"
-            @remove="removeItem"
-          />
+          <CartItem v-for="item in items" :key="item.id" :item="item" />
         </div>
 
         <!-- Order Summary -->
@@ -47,8 +41,8 @@
 
             <div class="space-y-2 mb-4">
               <div class="flex justify-between">
-                <span class="text-vine-600">Товары ({{ cart.totalItems }})</span>
-                <span>{{ formatPrice(cart.totalCartPrice) }}</span>
+                <span class="text-vine-600">Товары ({{ totalItems }})</span>
+                <span>{{ formatPrice(subtotal) }}</span>
               </div>
               <div class="flex justify-between">
                 <span class="text-vine-600">Доставка</span>
@@ -59,7 +53,7 @@
             <div class="border-t border-vine-200 pt-4 mb-6">
               <div class="flex justify-between text-lg font-semibold">
                 <span>Итого:</span>
-                <span>{{ formatPrice(cart.totalCartPrice + deliveryPrice) }}</span>
+                <span>{{ formatPrice(subtotal + deliveryPrice) }}</span>
               </div>
             </div>
 
@@ -95,15 +89,15 @@
 </template>
 
 <script setup lang="ts">
-import { useCartStore } from '@/stores/cart'
 import useAuthStore from '@/stores/auth'
-import type { Product } from '@/types'
 
 const cartStore = useCartStore()
 const authStore = useAuthStore()
+const { items, subtotal, totalItems } = storeToRefs(cartStore)
+const { clear: clearCart } = cartStore
 const { openModal } = authStore
 const { isAuth } = storeToRefs(authStore)
-const { cart: cartService } = useServices()
+const { cart: cartService, order: orderService } = useServices()
 
 const deliveryMethod = ref('pickup')
 const processing = ref(false)
@@ -112,29 +106,9 @@ const deliveryPrice = computed(() => {
   return deliveryMethod.value === 'delivery' ? 500 : 0
 })
 
-const {
-  data: cart,
-  refresh,
-  status
-} = await useAsyncData(() => cartService.getCart(), {
+await useLazyAsyncData(() => cartService.getCart(), {
   default: () => ({ items: [], totalItems: 0, totalCartPrice: 0 })
 })
-
-async function updateQuantity(itemId: number, quantity: number) {
-  try {
-    await cartStore.updateQuantity(itemId, quantity)
-  } catch (error) {
-    console.error('Error updating quantity:', error)
-  }
-}
-
-async function removeItem(itemId: number) {
-  try {
-    await cartStore.removeItem(itemId)
-  } catch (error) {
-    console.error('Error removing item:', error)
-  }
-}
 
 async function proceedToCheckout() {
   if (!isAuth.value) {
@@ -142,35 +116,20 @@ async function proceedToCheckout() {
     return
   }
 
-  // processing.value = true
-  // try {
-  //   const orderData = {
-  //     items: cartStore.items.map((item) => ({
-  //       productId: item.product.id,
-  //       quantity: item.quantity,
-  //       price: item.product.price
-  //     })),
-  //     deliveryMethod: deliveryMethod.value,
-  //     deliveryPrice: deliveryPrice.value,
-  //     totalPrice: cartStore.total + deliveryPrice.value
-  //   }
-  //
-  //   const response = await $api('/orders', {
-  //     method: 'POST',
-  //     body: orderData
-  //   })
-  //
-  //   // Clear cart after successful order
-  //   await cartStore.clear()
-  //
-  //   // Redirect to success page or show success message
-  //   await navigateTo(`/orders/${response.id}`)
-  // } catch (error) {
-  //   console.error('Error creating order:', error)
-  //   // Show error message
-  // } finally {
-  //   processing.value = false
-  // }
+  processing.value = true
+  try {
+    const response = await orderService.createOrder()
+
+    // Clear cart after successful order
+    clearCart()
+
+    // Redirect to success page or show success message
+    await navigateTo('/profile')
+  } catch (error) {
+    console.error('Error creating order:', error)
+  } finally {
+    processing.value = false
+  }
 }
 
 function formatPrice(price: number): string {

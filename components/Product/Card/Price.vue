@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Cart } from '@/types'
 import { debounce } from 'lodash'
+import formatPrice from '@/core/utils/formatPrice'
 
 type Props = {
   productId: number
@@ -17,15 +18,11 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const cartStore = useCartStore()
-const { getCartItemByProductId, setCartItemQuantity, setCart } = cartStore
+const { getCartItemByProductId, setCartItemQuantity, setCart, changeItemQuantity } = cartStore
 const { cart: cartService } = useServices()
 
 const itemInCart = computed<Cart.Item | undefined>(() => {
   return getCartItemByProductId(props.productId, props.type)
-})
-
-const itemQuantity = computed<number>(() => {
-  return unref(itemInCart)?.quantity ?? 0
 })
 
 const isInCart = computed<boolean>(() => !!unref(itemInCart))
@@ -62,18 +59,10 @@ const addToCart = async () => {
       type: props.type,
       quantity: 1
     })
-    console.log('add to cart')
+    itemCount.value = 1
   } finally {
     isSending.value = false
   }
-}
-
-function formatPrice(price: string | number): string {
-  const priceNumber = typeof price === 'string' ? Number(price) : price
-  return new Intl.NumberFormat('ru-RU', {
-    style: 'currency',
-    currency: 'RUB'
-  }).format(priceNumber)
 }
 
 const increaseQuantity = async (quantity: number) => {
@@ -82,6 +71,7 @@ const increaseQuantity = async (quantity: number) => {
   isSending.value = true
   try {
     const response = await cartService.updateItemQuantity(itemInCart.value.id, { quantity })
+    changeItemQuantity(itemInCart.value.id, quantity)
     if (response.id && response.quantity > 0) {
       setCartItemQuantity(response.id, response.quantity)
       itemCount.value = response.quantity

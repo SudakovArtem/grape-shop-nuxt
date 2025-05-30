@@ -6,7 +6,7 @@
 html,
 body {
   font-family:
-    'Inter',
+    'Exo 2',
     system-ui,
     -apple-system,
     sans-serif;

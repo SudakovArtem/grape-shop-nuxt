@@ -1,11 +1,13 @@
 import type { Cart, Product } from '@/types'
 
+const CART_INITIAL_STATE = {
+  items: [],
+  totalCartPrice: 0,
+  totalItems: 0
+} as const satisfies Cart.Model
+
 export const useCartStore = defineStore('cart', () => {
-  const state = reactive<Cart.Model>({
-    items: [],
-    totalCartPrice: 0,
-    totalItems: 0
-  })
+  const state = reactive<Cart.Model>(CART_INITIAL_STATE)
 
   // Computed values
   const items = computed<Cart.Item[]>(() => state.items)
@@ -22,8 +24,8 @@ export const useCartStore = defineStore('cart', () => {
     return [...cuttingsIds.value, ...seedlingsIds.value]
   })
 
-  const totalItems = computed(() => {
-    return state.totalItems
+  const totalItems = computed<number>(() => {
+    return state.items.reduce((acc, item) => acc + item.quantity, 0)
   })
 
   const subtotal = computed(() => {
@@ -53,6 +55,17 @@ export const useCartStore = defineStore('cart', () => {
     state.items = items
   }
 
+  const clear = () => {
+    setCart(CART_INITIAL_STATE)
+  }
+
+  const changeItemQuantity = (id: number, quantity: number) => {
+    const index = state.items.findIndex((item) => item.id === id)
+    if (index !== -1) {
+      state.items[index].quantity = quantity
+    }
+  }
+
   return {
     state,
     items,
@@ -65,6 +78,8 @@ export const useCartStore = defineStore('cart', () => {
     getCartItemByProductId,
     setCart,
     setCartItems,
-    setCartItemQuantity
+    setCartItemQuantity,
+    clear,
+    changeItemQuantity
   }
 })

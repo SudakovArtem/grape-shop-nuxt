@@ -23,7 +23,7 @@
           <div class="flex-1 min-w-0">
             <h3 class="font-medium text-vine-800 truncate">
               <NuxtLink :to="`/catalog/${item.productId}`" class="hover:text-vine-600 transition-colors">
-                {{ item.productName }}
+                <span v-text="`${item.productName} - ${item.type === 'seedling' ? 'Саженец' : 'Черенок'}`" />
               </NuxtLink>
             </h3>
 
@@ -39,51 +39,26 @@
 
           <!-- Remove Button -->
           <UiButton
-            @click="$emit('remove', item.id)"
-            variant="ghost"
-            size="sm"
+            @click="deleteCartItem"
+            variant="outline"
+            size="icon"
             class="text-red-600 hover:text-red-700 hover:bg-red-50 ml-2"
           >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-              ></path>
-            </svg>
+            <Icon name="i-lucide-trash-2" class="size-4" />
           </UiButton>
         </div>
 
         <!-- Price and Quantity -->
         <div class="flex items-center justify-between">
           <!-- Quantity Controls -->
-          <div class="flex items-center gap-2">
-            <UiButton
-              @click="decrementQuantity"
-              variant="outline"
-              size="sm"
-              :disabled="item.quantity <= 1"
-              class="w-8 h-8 p-0"
-            >
-              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
-              </svg>
-            </UiButton>
-
-            <span class="text-sm font-medium min-w-8 text-center">{{ item.quantity }}</span>
-
-            <UiButton
-              @click="incrementQuantity"
-              variant="outline"
-              size="sm"
-              :disabled="item.quantity >= 10"
-              class="w-8 h-8 p-0"
-            >
-              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-              </svg>
-            </UiButton>
+          <div class="w-30 shrink-0">
+            <UiNumberField v-model="itemCount" :min="1" :max="10" v-if="isInCart" class="w-full" :disabled="isSending">
+              <UiNumberFieldContent>
+                <UiNumberFieldDecrement />
+                <UiNumberFieldInput />
+                <UiNumberFieldIncrement />
+              </UiNumberFieldContent>
+            </UiNumberField>
           </div>
 
           <!-- Price -->
@@ -106,6 +81,8 @@
 
 <script setup lang="ts">
 import type { Cart } from '@/types'
+import { debounce } from 'lodash'
+import formatPrice from '@/core/utils/formatPrice'
 
 const props = defineProps<{
   item: Cart.Item
@@ -116,24 +93,61 @@ const emit = defineEmits<{
   remove: [id: number]
 }>()
 
-function incrementQuantity() {
-  if (props.item.quantity < 10) {
-    emit('update-quantity', props.item.id, props.item.quantity + 1)
+const cartStore = useCartStore()
+const { getCartItemByProductId, setCartItemQuantity, setCart, changeItemQuantity } = cartStore
+const { cart: cartService } = useServices()
+
+const itemInCart = computed<Cart.Item | undefined>(() => {
+  return getCartItemByProductId(props.item.productId, props.item.type)
+})
+
+const isInCart = computed<boolean>(() => !!unref(itemInCart))
+const itemCount = ref<number>(unref(itemInCart)?.quantity ?? 0)
+const isSending = ref<boolean>(false)
+
+const increaseQuantity = async (quantity: number) => {
+  if (!itemInCart.value) return
+
+  isSending.value = true
+  try {
+    const response = await cartService.updateItemQuantity(itemInCart.value.id, { quantity })
+    changeItemQuantity(itemInCart.value.id, quantity)
+    if (response.id && response.quantity > 0) {
+      setCartItemQuantity(response.id, response.quantity)
+      itemCount.value = response.quantity
+    }
+  } finally {
+    isSending.value = false
   }
 }
 
-function decrementQuantity() {
-  if (props.item.quantity > 1) {
-    emit('update-quantity', props.item.id, props.item.quantity - 1)
+const deleteCartItem = async () => {
+  if (!itemInCart.value?.id) return
+
+  isSending.value = true
+  try {
+    const response = await cartService.removeItem(itemInCart.value.id)
+    setCart(response)
+  } finally {
+    isSending.value = false
   }
 }
 
-function formatPrice(price: number): string {
-  return new Intl.NumberFormat('ru-RU', {
-    style: 'currency',
-    currency: 'RUB'
-  }).format(price)
-}
+const updateQuantity = debounce((value: number) => {
+  if (value <= 0) {
+    return
+  }
+
+  increaseQuantity(value)
+}, 300)
+
+watch(itemCount, (newValue) => {
+  if (isSending.value) {
+    return
+  }
+
+  updateQuantity(newValue)
+})
 
 function getColorClass(color: string): string {
   const colorMap: Record<string, string> = {
