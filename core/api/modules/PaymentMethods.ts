@@ -1,13 +1,19 @@
 import type { nuxtContext } from '@nuxt/types'
-import type { PaymentApi, CreatePaymentDto, PaymentObject, YooKassaNotificationDto } from '@/types'
+import type {
+  PaymentApi,
+  CreatePaymentDto,
+  CreatePaymentResponse,
+  PaymentObject,
+  YooKassaNotificationDto
+} from '@/types'
 
 export default (context: nuxtContext) => {
   class PaymentMethods implements PaymentApi {
     private static PAYMENT_ENDPOINTS = context.$configs.endpoints.payment
 
-    async createPayment(body: CreatePaymentDto): Promise<PaymentObject> {
+    async createPayment(body: CreatePaymentDto): Promise<CreatePaymentResponse> {
       const config = PaymentMethods.PAYMENT_ENDPOINTS.createPayment()
-      const result = await context.$services.useAPI.request<PaymentObject, CreatePaymentDto>({ config, body })
+      const result = await context.$services.useAPI.request<CreatePaymentResponse, CreatePaymentDto>({ config, body })
       return result
     }
 

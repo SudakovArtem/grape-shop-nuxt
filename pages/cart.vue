@@ -90,14 +90,16 @@
 
 <script setup lang="ts">
 import useAuthStore from '@/stores/auth'
+import useUserStore from '@/stores/user'
 
 const cartStore = useCartStore()
 const authStore = useAuthStore()
 const { items, subtotal, totalItems } = storeToRefs(cartStore)
+const { user } = storeToRefs(useUserStore())
 const { clear: clearCart } = cartStore
 const { openModal } = authStore
 const { isAuth } = storeToRefs(authStore)
-const { cart: cartService, order: orderService } = useServices()
+const { cart: cartService, order: orderService, payment: paymentService } = useServices()
 
 const deliveryMethod = ref('pickup')
 const processing = ref(false)
@@ -118,13 +120,25 @@ async function proceedToCheckout() {
 
   processing.value = true
   try {
-    const response = await orderService.createOrder()
+    const oredrResponse = await orderService.createOrder()
+    if (!oredrResponse.id) {
+      throw new Error('Failed to create order')
+    }
 
+    const paymentResponse = await paymentService.createPayment({
+      value: (subtotal.value + deliveryPrice.value).toFixed(2),
+      orderId: oredrResponse.id.toString(),
+      userId: user.value?.id?.toString() ?? ''
+    })
+
+    if (paymentResponse?.payment?.confirmation?.confirmation_url) {
+      window.open(paymentResponse?.payment?.confirmation?.confirmation_url)
+    }
     // Clear cart after successful order
     clearCart()
 
     // Redirect to success page or show success message
-    await navigateTo('/profile')
+    // await navigateTo('/profile')
   } catch (error) {
     console.error('Error creating order:', error)
   } finally {

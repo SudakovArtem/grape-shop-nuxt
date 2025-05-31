@@ -1,6 +1,7 @@
 import type { nuxtContext } from '@nuxt/types'
 import type {
   CreatePaymentDto,
+  CreatePaymentResponse,
   PaymentObject,
   YooKassaNotificationDto,
   PaymentService as IPaymentService
@@ -10,7 +11,7 @@ export default (context: nuxtContext) => {
   class PaymentService implements IPaymentService {
     private static PAYMENT_METHODS = context.$api.payment
 
-    async createPayment(body: CreatePaymentDto): Promise<PaymentObject> {
+    async createPayment(body: CreatePaymentDto): Promise<CreatePaymentResponse> {
       const response = await PaymentService.PAYMENT_METHODS.createPayment(body)
       return response
     }
