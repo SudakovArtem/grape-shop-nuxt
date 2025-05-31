@@ -5,6 +5,7 @@ import type { OrderEndpoints } from './OrderEndpoints'
 import type { CategoryEndpoints } from './CategoryEndpoints'
 import type { UploadEndpoints } from './UploadEndpoints'
 import type { ArticleEndpoints } from './ArticleEndpoints'
+import type { PaymentEndpoints } from './PaymentEndpoints'
 
 export interface Endpoints {
   user: UserEndpoints
@@ -14,4 +15,5 @@ export interface Endpoints {
   category: CategoryEndpoints
   upload: UploadEndpoints
   article: ArticleEndpoints
+  payment: PaymentEndpoints
 }

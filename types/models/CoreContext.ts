@@ -17,7 +17,9 @@ import type {
   CartApi,
   OrderApi,
   CategoryApi,
-  UploadApi
+  UploadApi,
+  PaymentApi,
+  PaymentService
 } from '@/types'
 import type { Constants } from '@configs/modules/Constants.ts'
 
@@ -30,6 +32,7 @@ export namespace CoreContext {
     category: CategoryApi
     order: OrderApi
     upload: UploadApi
+    payment: PaymentApi
   }
 
   export interface Services {
@@ -42,6 +45,7 @@ export namespace CoreContext {
     category: CategoryService
     order: OrderService
     upload: UploadService
+    payment: PaymentService
   }
 
   export interface Adapters {
